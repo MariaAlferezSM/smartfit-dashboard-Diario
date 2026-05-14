@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Fit · Reporte Diario de Ventas</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f0f0; color: #111; min-height: 100vh; }
+  .page { max-width: 900px; margin: 0 auto; padding: 24px 16px 40px; }
+  .header { background: #111; border-radius: 12px; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .logo { background: #FFB612; border-radius: 8px; padding: 7px 12px; font-weight: 800; font-size: 13px; color: #000; letter-spacing: 0.05em; white-space: nowrap; }
+  .header-title { color: #fff; font-size: 20px; font-weight: 700; line-height: 1.2; }
+  .header-date { color: #aaa; font-size: 13px; margin-top: 2px; }
+  .header-meta { text-align: right; }
+  .header-meta-label { color: #aaa; font-size: 12px; }
+  .header-meta-val { color: #FFB612; font-size: 28px; font-weight: 700; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .tab-btn { display: flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid #ccc; background: #fff; color: #555; transition: all 0.15s; }
+  .tab-btn .code { font-size: 10px; font-weight: 700; opacity: 0.6; margin-right: 2px; }
+  .tab-btn.active { background: #FFB612; border-color: #FFB612; color: #000; }
+  .tab-btn:hover:not(.active) { border-color: #999; color: #222; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .kpi-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .kpi-card { background: #fff; border-radius: 10px; padding: 14px 16px; border: 1px solid #e8e8e8; }
+  .kpi-card.dark { background: #111; border-color: #111; }
+  .kpi-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: #999; text-transform: uppercase; margin-bottom: 6px; }
+  .kpi-card.dark .kpi-label { color: #888; }
+  .kpi-val { font-size: 26px; font-weight: 700; color: #111; line-height: 1; }
+  .kpi-card.dark .kpi-val { color: #FFB612; }
+  .kpi-sub { font-size: 12px; margin-top: 4px; font-weight: 500; }
+  .kpi-sub.red { color: #e53e3e; } .kpi-sub.green { color: #38a169; } .kpi-sub.gray { color: #888; }
+  .progress-section { background: #fff; border-radius: 10px; padding: 16px 18px; border: 1px solid #e8e8e8; margin-bottom: 16px; }
+  .progress-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .progress-title { font-size: 12px; font-weight: 600; color: #555; }
+  .progress-pct { font-size: 13px; font-weight: 700; }
+  .progress-pct.green { color: #38a169; } .progress-pct.red { color: #e53e3e; }
+  .progress-bar { height: 10px; background: #f0f0f0; border-radius: 5px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 5px; }
+  .fill-green { background: #38a169; } .fill-red { background: #e53e3e; }
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .compare-card { background: #fff; border-radius: 10px; padding: 14px 18px; border: 1px solid #e8e8e8; }
+  .compare-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: #999; text-transform: uppercase; margin-bottom: 8px; }
+  .compare-main { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .compare-pct { font-size: 26px; font-weight: 700; }
+  .compare-pct.green { color: #38a169; } .compare-pct.red { color: #e53e3e; }
+  .compare-badge { display: inline-flex; align-items: center; gap: 3px; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+  .badge-green { background: #c6f6d5; color: #276749; } .badge-red { background: #fed7d7; color: #9b2c2c; }
+  .compare-detail { font-size: 12px; color: #888; }
+  .chart-card { background: #fff; border-radius: 10px; padding: 16px 18px; border: 1px solid #e8e8e8; margin-bottom: 16px; }
+  .chart-title { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: #999; text-transform: uppercase; margin-bottom: 12px; }
+  .chart-legend { display: flex; gap: 16px; margin-bottom: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: #555; }
+  .legend-dot-gold { width: 12px; height: 4px; border-radius: 2px; background: #FFB612; }
+  .legend-dot-green { width: 12px; height: 12px; border-radius: 3px; background: #2f855a; }
+  .chart-wrap { position: relative; width: 100%; height: 320px; }
+  .canal-card { background: #fff; border-radius: 10px; padding: 16px 18px; border: 1px solid #e8e8e8; margin-bottom: 16px; }
+  .canal-title { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: #999; text-transform: uppercase; margin-bottom: 12px; }
+  .canal-table { width: 100%; border-collapse: collapse; }
+  .canal-table thead th { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: #aaa; text-transform: uppercase; padding: 0 8px 8px; border-bottom: 1px solid #f0f0f0; text-align: left; }
+  .canal-table thead th:not(:first-child) { text-align: right; }
+  .canal-table tbody td { padding: 8px 8px; border-bottom: 1px solid #f7f7f7; vertical-align: middle; }
+  .canal-table tbody tr:last-child td { border-bottom: none; }
+  .canal-name { font-size: 13px; font-weight: 600; color: #222; }
+  .canal-bar-col { width: 40%; }
+  .bar-bg { background: #f0f0f0; border-radius: 3px; height: 7px; overflow: hidden; }
+  .bar-fill { height: 7px; border-radius: 3px; background: #FFB612; }
+  .canal-num { font-size: 13px; font-weight: 700; color: #222; text-align: right; white-space: nowrap; }
+  .canal-pct { font-size: 12px; color: #888; text-align: right; }
+  .canal-var { font-size: 12px; font-weight: 700; text-align: right; white-space: nowrap; }
+  .canal-var.up { color: #38a169; } .canal-var.down { color: #e53e3e; }
+  .alert-card { border-radius: 10px; padding: 13px 16px; margin-bottom: 10px; border: 1.5px solid #fc8181; background: #fff5f5; display: flex; align-items: flex-start; gap: 10px; }
+  .alert-dot-big { width: 11px; height: 11px; border-radius: 50%; background: #e53e3e; margin-top: 2px; flex-shrink: 0; }
+  .alert-text { font-size: 13px; color: #333; font-weight: 500; line-height: 1.5; }
+  .alert-text strong { color: #c53030; }
+  .footer { text-align: center; margin-top: 24px; font-size: 11px; color: #bbb; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">SMART FIT</div>
+      <div>
+        <div class="header-title">Reporte Diario de Ventas</div>
+        <div class="header-date">Datos del 1 al 13 de May 2026</div>
+      </div>
+    </div>
+    <div class="header-meta">
+      <div class="header-meta-label">Meta del mes</div>
+      <div class="header-meta-val" id="header-meta-mes">48,511</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('col')" id="tab-btn-col"><span class="code">CO</span> Colombia</button>
+    <button class="tab-btn" onclick="showTab('cri')" id="tab-btn-cri"><span class="code">CR</span> Costa Rica</button>
+    <button class="tab-btn" onclick="showTab('pan')" id="tab-btn-pan"><span class="code">PA</span> Panamá</button>
+    <button class="tab-btn" onclick="showTab('per')" id="tab-btn-per"><span class="code">PE</span> Perú</button>
+  </div>
+
+  <div id="panel-col" class="panel active"></div>
+  <div id="panel-cri" class="panel"></div>
+  <div id="panel-pan" class="panel"></div>
+  <div id="panel-per" class="panel"></div>
+
+  <div class="footer">Smart Fit · Datos al 13 May 2026 · Carga 14/05/2026</div>
+</div>
+
+<script>
+const DATA = {"col": {"nombre": "Colombia", "moneda": "COP", "meta_dia": 1506, "acum_ventas": 18994, "acum_meta": 20818, "meta_mes": 48511, "prev_ventas": 21711, "py_ventas": 18299, "daily": [{"date": "1 May", "ventas": 1053, "meta": 734}, {"date": "2 May", "ventas": 800, "meta": 734}, {"date": "3 May", "ventas": 835, "meta": 734}, {"date": "4 May", "ventas": 3469, "meta": 2820}, {"date": "5 May", "ventas": 2473, "meta": 2426}, {"date": "6 May", "ventas": 1762, "meta": 1978}, {"date": "7 May", "ventas": 1429, "meta": 1506}, {"date": "8 May", "ventas": 1007, "meta": 1316}, {"date": "9 May", "ventas": 681, "meta": 1014}, {"date": "10 May", "ventas": 394, "meta": 491}, {"date": "11 May", "ventas": 2701, "meta": 2662}, {"date": "12 May", "ventas": 1911, "meta": 2425}, {"date": "13 May", "ventas": 479, "meta": 1978}], "canales": [{"n": "Tótem", "a": 7667, "p": 8453}, {"n": "Web", "a": 6815, "p": 7890}, {"n": "Recepción", "a": 4323, "p": 5073}, {"n": "Tu Espacio", "a": 105, "p": 179}, {"n": "App", "a": 84, "p": 116}], "sedes_sin": []}, "cri": {"nombre": "Costa Rica", "moneda": "USD", "meta_dia": 132, "acum_ventas": 1726, "acum_meta": 1916, "meta_mes": 4453, "prev_ventas": 1610, "py_ventas": 1409, "daily": [{"date": "1 May", "ventas": 127, "meta": 91}, {"date": "2 May", "ventas": 115, "meta": 91}, {"date": "3 May", "ventas": 74, "meta": 91}, {"date": "4 May", "ventas": 223, "meta": 255}, {"date": "5 May", "ventas": 202, "meta": 200}, {"date": "6 May", "ventas": 146, "meta": 148}, {"date": "7 May", "ventas": 128, "meta": 132}, {"date": "8 May", "ventas": 110, "meta": 113}, {"date": "9 May", "ventas": 97, "meta": 101}, {"date": "10 May", "ventas": 79, "meta": 91}, {"date": "11 May", "ventas": 221, "meta": 255}, {"date": "12 May", "ventas": 170, "meta": 200}, {"date": "13 May", "ventas": 34, "meta": 148}], "canales": [{"n": "Tótem", "a": 945, "p": 926}, {"n": "Web", "a": 646, "p": 521}, {"n": "Recepción", "a": 108, "p": 125}, {"n": "Tu Espacio", "a": 11, "p": 15}, {"n": "App", "a": 16, "p": 23}], "sedes_sin": []}, "pan": {"nombre": "Panamá", "moneda": "USD", "meta_dia": 145, "acum_ventas": 1463, "acum_meta": 2079, "meta_mes": 4844, "prev_ventas": 1495, "py_ventas": 1588, "daily": [{"date": "1 May", "ventas": 95, "meta": 97}, {"date": "2 May", "ventas": 73, "meta": 97}, {"date": "3 May", "ventas": 84, "meta": 97}, {"date": "4 May", "ventas": 218, "meta": 279}, {"date": "5 May", "ventas": 174, "meta": 217}, {"date": "6 May", "ventas": 130, "meta": 161}, {"date": "7 May", "ventas": 117, "meta": 145}, {"date": "8 May", "ventas": 97, "meta": 120}, {"date": "9 May", "ventas": 75, "meta": 112}, {"date": "10 May", "ventas": 55, "meta": 97}, {"date": "11 May", "ventas": 177, "meta": 279}, {"date": "12 May", "ventas": 139, "meta": 217}, {"date": "13 May", "ventas": 29, "meta": 161}], "canales": [{"n": "Tótem", "a": 683, "p": 751}, {"n": "Web", "a": 486, "p": 419}, {"n": "Recepción", "a": 246, "p": 280}, {"n": "Tu Espacio", "a": 11, "p": 7}, {"n": "App", "a": 37, "p": 38}], "sedes_sin": []}, "per": {"nombre": "Perú", "moneda": "PEN", "meta_dia": 731, "acum_ventas": 7971, "acum_meta": 9529, "meta_mes": 22027, "prev_ventas": 10600, "py_ventas": 8328, "daily": [{"date": "1 May", "ventas": 0, "meta": 15}, {"date": "2 May", "ventas": 517, "meta": 497}, {"date": "3 May", "ventas": 241, "meta": 281}, {"date": "4 May", "ventas": 1540, "meta": 1543}, {"date": "5 May", "ventas": 998, "meta": 1166}, {"date": "6 May", "ventas": 833, "meta": 848}, {"date": "7 May", "ventas": 600, "meta": 705}, {"date": "8 May", "ventas": 435, "meta": 559}, {"date": "9 May", "ventas": 314, "meta": 433}, {"date": "10 May", "ventas": 107, "meta": 280}, {"date": "11 May", "ventas": 1213, "meta": 1355}, {"date": "12 May", "ventas": 956, "meta": 1008}, {"date": "13 May", "ventas": 217, "meta": 839}], "canales": [{"n": "Tótem", "a": 2776, "p": 3595}, {"n": "Web", "a": 2062, "p": 2604}, {"n": "Recepción", "a": 3005, "p": 4268}, {"n": "Tu Espacio", "a": 42, "p": 26}, {"n": "App", "a": 86, "p": 107}], "sedes_sin": ["Av. Del Ejército - Miraflores"]}};
+const META = {"acum_label": "1–13 May 2026", "today_label": "14 May", "header_sub": "Datos del 1 al 13 de May 2026", "footer_txt": "Smart Fit · Datos al 13 May 2026 · Carga 14/05/2026", "prev_mes": "Apr"};
+const charts = {};
+
+function N(n) { return n.toLocaleString('es-CO'); }
+
+function buildAlerts(c) {
+  const alerts = [];
+  const cum = c.acum_meta > 0 ? c.acum_ventas / c.acum_meta * 100 : 0;
+  if (cum < 80) alerts.push(`Cumplimiento acumulado MTD: <strong>${cum.toFixed(1)}%</strong> — por debajo del umbral mínimo (80%).`);
+  const vsP = c.prev_ventas > 0 ? (c.acum_ventas - c.prev_ventas) / c.prev_ventas * 100 : 0;
+  if (vsP < -15) alerts.push(`Caída vs mes anterior: <strong>${vsP.toFixed(1)}%</strong> — supera umbral −15%.`);
+  const vsPY = c.py_ventas > 0 ? (c.acum_ventas - c.py_ventas) / c.py_ventas * 100 : 0;
+  if (vsPY < -5) alerts.push(`Caída vs año anterior: <strong>${vsPY.toFixed(1)}%</strong> — supera umbral −5%.`);
+  c.canales.forEach(cn => {
+    if (cn.p > 0) {
+      const chg = (cn.a - cn.p) / cn.p * 100;
+      if (chg < -15) alerts.push(`Canal <strong>${cn.n}</strong> cayó <strong>${chg.toFixed(1)}%</strong> vs mes anterior.`);
+    }
+  });
+  if (c.sedes_sin.length > 0) alerts.push(`<strong>Sede(s) sin ventas (últimos 3 días):</strong> ${c.sedes_sin.join(', ')}. Verificar operación.`);
+  return alerts;
+}
+
+function renderPanel(key) {
+  const c = DATA[key];
+  const el = document.getElementById('panel-' + key);
+  const mtdVsMeta = c.acum_ventas - c.acum_meta;
+  const mtdPct = c.acum_meta > 0 ? c.acum_ventas / c.acum_meta * 100 : 0;
+  const prevPct = c.prev_ventas > 0 ? (c.acum_ventas - c.prev_ventas) / c.prev_ventas * 100 : 0;
+  const pyPct   = c.py_ventas   > 0 ? (c.acum_ventas - c.py_ventas)   / c.py_ventas   * 100 : 0;
+  const mtdPctColor = mtdPct >= 80 ? 'green' : 'red';
+  const alerts = buildAlerts(c);
+  const totalCanal = c.canales.reduce((s, x) => s + x.a, 0);
+  const maxCanal   = Math.max(...c.canales.map(x => x.a));
+
+  const canalRows = c.canales.map(cn => {
+    const barW  = maxCanal > 0 ? Math.round(cn.a / maxCanal * 100) : 0;
+    const share = totalCanal > 0 ? (cn.a / totalCanal * 100).toFixed(1) : '0';
+    const chg   = cn.p > 0 ? (cn.a - cn.p) / cn.p * 100 : 0;
+    const cls   = chg >= 0 ? 'up' : 'down';
+    const str   = (chg >= 0 ? '▲' : '▼') + Math.abs(chg).toFixed(1) + '%';
+    return `<tr>
+      <td class="canal-name">${cn.n}</td>
+      <td class="canal-bar-col"><div class="bar-bg"><div class="bar-fill" style="width:${barW}%"></div></div></td>
+      <td class="canal-num">${N(cn.a)}</td>
+      <td class="canal-pct">${share}%</td>
+      <td class="canal-var ${cls}">${str}</td>
+    </tr>`;
+  }).join('');
+
+  const alertsHtml = alerts.length
+    ? alerts.map(a => `<div class="alert-card"><div class="alert-dot-big"></div><div class="alert-text">${a}</div></div>`).join('')
+    : `<div style="font-size:13px;color:#38a169;padding:6px 0;display:flex;align-items:center;gap:6px;"><span>✓</span> Sin alertas activas para este período.</div>`;
+
+  const prevMes = META.prev_mes;
+
+  el.innerHTML = `
+    <div class="kpi-grid">
+      <div class="kpi-card dark">
+        <div class="kpi-label">Ventas ${META.acum_label}</div>
+        <div class="kpi-val">${N(c.acum_ventas)}</div>
+        <div class="kpi-sub gray">acumulado</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Meta ${META.acum_label}</div>
+        <div class="kpi-val" style="color:#111">${N(c.acum_meta)}</div>
+        <div class="kpi-sub gray">acumulada</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Diferencia</div>
+        <div class="kpi-val" style="color:${mtdVsMeta >= 0 ? '#38a169' : '#e53e3e'}">${mtdVsMeta >= 0 ? '+' : ''}${N(mtdVsMeta)}</div>
+        <div class="kpi-sub ${mtdPct >= 80 ? 'green' : 'red'}">${mtdPct.toFixed(1)}% cumpl.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Meta hoy (${META.today_label})</div>
+        <div class="kpi-val" style="color:#111">${N(c.meta_dia)}</div>
+        <div class="kpi-sub gray">objetivo del día</div>
+      </div>
+    </div>
+
+    <div class="progress-section">
+      <div class="progress-header">
+        <span class="progress-title">Cumplimiento acumulado (${META.acum_label})</span>
+        <span class="progress-pct ${mtdPctColor}">${mtdPct.toFixed(1)}%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill ${mtdPct >= 80 ? 'fill-green' : 'fill-red'}" style="width:${Math.min(mtdPct,100).toFixed(0)}%"></div>
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="compare-label">VS mes anterior (igual corte)</div>
+        <div class="compare-main">
+          <span class="compare-pct ${prevPct >= 0 ? 'green' : 'red'}">${prevPct >= 0 ? '+' : ''}${prevPct.toFixed(1)}%</span>
+          <span class="compare-badge ${prevPct >= 0 ? 'badge-green' : 'badge-red'}">${prevPct >= 0 ? '▲' : '▼'} ${prevMes}</span>
+        </div>
+        <div class="compare-detail">${prevMes}: ${N(c.prev_ventas)} · Mayo: ${N(c.acum_ventas)}</div>
+      </div>
+      <div class="compare-card">
+        <div class="compare-label">VS año anterior (igual corte)</div>
+        <div class="compare-main">
+          <span class="compare-pct ${pyPct >= 0 ? 'green' : 'red'}">${pyPct >= 0 ? '+' : ''}${pyPct.toFixed(1)}%</span>
+          <span class="compare-badge ${pyPct >= 0 ? 'badge-green' : 'badge-red'}">${pyPct >= 0 ? '▲' : '▼'} Mayo 2025</span>
+        </div>
+        <div class="compare-detail">Mayo 2025: ${N(c.py_ventas)} · Mayo 2026: ${N(c.acum_ventas)}</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Ventas diarias (Barras = Ventas · Línea = Meta)</div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot-gold"></div> Meta</div>
+        <div class="legend-item"><div class="legend-dot-green"></div> Ventas</div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="chart-${key}"></canvas>
+      </div>
+    </div>
+
+    <div class="canal-card">
+      <div class="canal-title">Canales MTD · Participación y variación vs ${prevMes}</div>
+      <table class="canal-table">
+        <thead><tr>
+          <th>Canal</th><th></th>
+          <th style="text-align:right">Vtas</th>
+          <th style="text-align:right">%</th>
+          <th style="text-align:right">VS ${prevMes.toUpperCase()}</th>
+        </tr></thead>
+        <tbody>${canalRows}</tbody>
+      </table>
+    </div>
+
+    ${alertsHtml}
+  `;
+
+  if (charts[key]) { charts[key].destroy(); delete charts[key]; }
+  const daily = c.daily;
+  const barColors = daily.map(d => d.ventas >= d.meta ? '#276749' : '#c53030');
+
+  charts[key] = new Chart(document.getElementById('chart-' + key), {
+    type: 'bar',
+    data: {
+      labels: daily.map(d => d.date),
+      datasets: [
+        { label: 'Ventas', data: daily.map(d => d.ventas), backgroundColor: barColors, borderRadius: 4, order: 2 },
+        { label: 'Meta', data: daily.map(d => d.meta), type: 'line', borderColor: '#FFB612', backgroundColor: 'transparent', borderWidth: 2.5, pointBackgroundColor: '#FFB612', pointRadius: 5, pointBorderColor: '#fff', pointBorderWidth: 2, tension: 0.3, order: 1 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      layout: { padding: { top: 52 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('es-CO')}` } },
+        datalabels: false
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#999', autoSkip: false, maxRotation: 0 } },
+        y: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { font: { size: 11 }, color: '#999', callback: v => v >= 1000 ? (v/1000).toFixed(0)+'k' : v } }
+      }
+    },
+    plugins: [ChartDataLabels, {
+      id: 'multiLabel',
+      afterDatasetsDraw(chart) {
+        const ctx2 = chart.ctx;
+        const meta0 = chart.getDatasetMeta(0);
+        meta0.data.forEach((bar, i) => {
+          const d = daily[i];
+          if (!d) return;
+          const pct = d.meta > 0 ? Math.round(d.ventas / d.meta * 100) : 0;
+          const x = bar.x, top = bar.y, bottom = bar.base, barH = bottom - top;
+          ctx2.save();
+          ctx2.textAlign = 'center';
+          const boxW = Math.max(bar.width - 4, 50), boxH = 34;
+          const boxX = x - boxW / 2, boxY = top - boxH - 6;
+          ctx2.fillStyle = '#fff';
+          ctx2.beginPath();
+          if (ctx2.roundRect) ctx2.roundRect(boxX, boxY, boxW, boxH, 5);
+          else ctx2.rect(boxX, boxY, boxW, boxH);
+          ctx2.fill();
+          ctx2.font = 'bold 12px sans-serif'; ctx2.fillStyle = '#111';
+          ctx2.fillText(d.meta.toLocaleString('es-CO'), x, boxY + 14);
+          ctx2.font = '11px sans-serif'; ctx2.fillStyle = '#777';
+          ctx2.fillText(pct + '%', x, boxY + 28);
+          if (barH > 30) {
+            ctx2.font = 'bold 13px sans-serif'; ctx2.fillStyle = 'rgba(255,255,255,0.95)';
+            ctx2.fillText(d.ventas.toLocaleString('es-CO'), x, top + barH / 2 + 5);
+          }
+          ctx2.restore();
+        });
+      }
+    }]
+  });
+}
+
+function showTab(key) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-btn-' + key).classList.add('active');
+  document.getElementById('panel-' + key).classList.add('active');
+  document.getElementById('header-meta-mes').textContent = DATA[key].meta_mes.toLocaleString('es-CO');
+  renderPanel(key);
+}
+
+showTab('col');
+</script>
+</body>
+</html>
