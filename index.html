@@ -57,7 +57,7 @@
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: #555; }
   .legend-dot-gold { width: 12px; height: 4px; border-radius: 2px; background: #FFB612; }
   .legend-dot-green { width: 12px; height: 12px; border-radius: 3px; background: #2f855a; }
-  .chart-wrap { position: relative; width: 100%; height: 320px; }
+  .chart-wrap { position: relative; width: 100%; height: 360px; }
   .canal-card { background: #fff; border-radius: 10px; padding: 16px 18px; border: 1px solid #e8e8e8; margin-bottom: 16px; }
   .canal-title { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: #999; text-transform: uppercase; margin-bottom: 12px; }
   .canal-table { width: 100%; border-collapse: collapse; }
@@ -256,23 +256,23 @@ function renderPanel(key) {
   charts[key] = new Chart(document.getElementById('chart-' + key), {
     type: 'bar',
     data: {
-      labels: daily.map(d => d.date),
+      labels: daily.map(d => d.date.replace(' May','').replace(' may','')),
       datasets: [
-        { label: 'Ventas', data: daily.map(d => d.ventas), backgroundColor: barColors, borderRadius: 4, order: 2 },
-        { label: 'Meta', data: daily.map(d => d.meta), type: 'line', borderColor: '#FFB612', backgroundColor: 'transparent', borderWidth: 2.5, pointBackgroundColor: '#FFB612', pointRadius: 5, pointBorderColor: '#fff', pointBorderWidth: 2, tension: 0.3, order: 1 }
+        { label: 'Ventas', data: daily.map(d => d.ventas), backgroundColor: barColors, borderRadius: 3, order: 2 },
+        { label: 'Meta', data: daily.map(d => d.meta), type: 'line', borderColor: '#FFB612', backgroundColor: 'transparent', borderWidth: 2, pointBackgroundColor: '#FFB612', pointRadius: 3, pointBorderColor: '#fff', pointBorderWidth: 1.5, tension: 0.3, order: 1 }
       ]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      layout: { padding: { top: 52 } },
+      layout: { padding: { top: 48 } },
       plugins: {
         legend: { display: false },
         tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('es-CO')}` } },
         datalabels: false
       },
       scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#999', autoSkip: false, maxRotation: 0 } },
-        y: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { font: { size: 11 }, color: '#999', callback: v => v >= 1000 ? (v/1000).toFixed(0)+'k' : v } }
+        x: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#999', autoSkip: false, maxRotation: 0 } },
+        y: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { font: { size: 10 }, color: '#999', callback: v => v >= 1000 ? (v/1000).toFixed(0)+'k' : v } }
       }
     },
     plugins: [ChartDataLabels, {
@@ -287,20 +287,20 @@ function renderPanel(key) {
           const x = bar.x, top = bar.y, bottom = bar.base, barH = bottom - top;
           ctx2.save();
           ctx2.textAlign = 'center';
-          const boxW = Math.max(bar.width - 4, 50), boxH = 34;
-          const boxX = x - boxW / 2, boxY = top - boxH - 6;
+          const boxW = Math.max(bar.width - 2, 30), boxH = 30;
+          const boxX = x - boxW / 2, boxY = top - boxH - 4;
           ctx2.fillStyle = '#fff';
           ctx2.beginPath();
-          if (ctx2.roundRect) ctx2.roundRect(boxX, boxY, boxW, boxH, 5);
+          if (ctx2.roundRect) ctx2.roundRect(boxX, boxY, boxW, boxH, 4);
           else ctx2.rect(boxX, boxY, boxW, boxH);
           ctx2.fill();
-          ctx2.font = 'bold 12px sans-serif'; ctx2.fillStyle = '#111';
-          ctx2.fillText(d.meta.toLocaleString('es-CO'), x, boxY + 14);
-          ctx2.font = '11px sans-serif'; ctx2.fillStyle = '#777';
-          ctx2.fillText(pct + '%', x, boxY + 28);
-          if (barH > 30) {
-            ctx2.font = 'bold 13px sans-serif'; ctx2.fillStyle = 'rgba(255,255,255,0.95)';
-            ctx2.fillText(d.ventas.toLocaleString('es-CO'), x, top + barH / 2 + 5);
+          ctx2.font = 'bold 9px sans-serif'; ctx2.fillStyle = '#111';
+          ctx2.fillText(d.meta.toLocaleString('es-CO'), x, boxY + 12);
+          ctx2.font = '9px sans-serif'; ctx2.fillStyle = '#777';
+          ctx2.fillText(pct + '%', x, boxY + 24);
+          if (barH > 24) {
+            ctx2.font = 'bold 9px sans-serif'; ctx2.fillStyle = 'rgba(255,255,255,0.95)';
+            ctx2.fillText(d.ventas.toLocaleString('es-CO'), x, top + barH / 2 + 4);
           }
           ctx2.restore();
         });
