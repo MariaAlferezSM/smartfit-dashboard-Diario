@@ -112,7 +112,7 @@
 </div>
 
 <script>
-const DATA = {"col": {"nombre": "Colombia", "moneda": "COP", "meta_dia": 2163, "acum_ventas": 8227, "acum_meta": 9413, "meta_mes": 56403, "prev_ventas": 2688, "py_ventas": 5219, "daily": [{"date": "1 Jun", "ventas": 3392, "meta": 3432}, {"date": "2 Jun", "ventas": 2724, "meta": 3130}, {"date": "3 Jun", "ventas": 2111, "meta": 2851}], "canales": [{"n": "Tótem", "a": 3414, "p": 964}, {"n": "Web", "a": 2893, "p": 1114}, {"n": "Recepción", "a": 1838, "p": 585}, {"n": "Tu Espacio", "a": 28, "p": 14}, {"n": "App", "a": 54, "p": 11}], "sedes_sin": []}, "cri": {"nombre": "Costa Rica", "moneda": "USD", "meta_dia": 119, "acum_ventas": 589, "acum_meta": 524, "meta_mes": 3935, "prev_ventas": 316, "py_ventas": 585, "daily": [{"date": "1 Jun", "ventas": 271, "meta": 213}, {"date": "2 Jun", "ventas": 196, "meta": 174}, {"date": "3 Jun", "ventas": 122, "meta": 137}], "canales": [{"n": "Tótem", "a": 383, "p": 162}, {"n": "Web", "a": 161, "p": 140}, {"n": "Recepción", "a": 37, "p": 9}, {"n": "Tu Espacio", "a": 3, "p": 1}, {"n": "App", "a": 5, "p": 4}], "sedes_sin": ["San Sebastián "]}, "pan": {"nombre": "Panamá", "moneda": "USD", "meta_dia": 162, "acum_ventas": 525, "acum_meta": 741, "meta_mes": 4812, "prev_ventas": 252, "py_ventas": 550, "daily": [{"date": "1 Jun", "ventas": 267, "meta": 293}, {"date": "2 Jun", "ventas": 151, "meta": 250}, {"date": "3 Jun", "ventas": 107, "meta": 198}], "canales": [{"n": "Tótem", "a": 245, "p": 79}, {"n": "Web", "a": 149, "p": 126}, {"n": "Recepción", "a": 123, "p": 37}, {"n": "Tu Espacio", "a": 2, "p": 2}, {"n": "App", "a": 6, "p": 8}], "sedes_sin": []}, "per": {"nombre": "Perú", "moneda": "PEN", "meta_dia": 696, "acum_ventas": 3031, "acum_meta": 2851, "meta_mes": 20122, "prev_ventas": 766, "py_ventas": 2781, "daily": [{"date": "1 Jun", "ventas": 1385, "meta": 1182}, {"date": "2 Jun", "ventas": 916, "meta": 903}, {"date": "3 Jun", "ventas": 730, "meta": 766}], "canales": [{"n": "Tótem", "a": 1115, "p": 222}, {"n": "Web", "a": 679, "p": 246}, {"n": "Recepción", "a": 1196, "p": 280}, {"n": "Tu Espacio", "a": 6, "p": 5}, {"n": "App", "a": 35, "p": 13}], "sedes_sin": ["Plaza San Miguel ", "Parque Las Naciones San Miguel ", "Plaza del Sol Huacho "]}};
+const DATA = {"col": {"nombre": "Colombia", "moneda": "COP", "meta_dia": 2163, "acum_ventas": 8227, "acum_meta": 9413, "meta_mes": 56403, "mes_pct": 14.6, "prev_ventas": 2688, "py_ventas": 5219, "daily": [{"date": "1 Jun", "ventas": 3392, "meta": 3432}, {"date": "2 Jun", "ventas": 2724, "meta": 3130}, {"date": "3 Jun", "ventas": 2111, "meta": 2851}], "canales": [{"n": "Tótem", "a": 3414, "p": 964, "y": 1650}, {"n": "Web", "a": 2893, "p": 1114, "y": 1807}, {"n": "Recepción", "a": 1838, "p": 585, "y": 1668}, {"n": "Tu Espacio", "a": 28, "p": 14, "y": 78}, {"n": "App", "a": 54, "p": 11, "y": 16}], "sedes_sin": [], "sedes_malas": [{"sede": "Envigado Barrio Obrero", "ventas": 16, "meta": 66, "cumpl": 24.2}, {"sede": "Jumbo Las Vegas", "ventas": 14, "meta": 57, "cumpl": 24.6}, {"sede": "Metro Mosquera", "ventas": 12, "meta": 41, "cumpl": 29.3}, {"sede": "Nuestro Atlántico - Soledad", "ventas": 9, "meta": 30, "cumpl": 30.0}, {"sede": "De Moda Outlet", "ventas": 14, "meta": 43, "cumpl": 32.6}, {"sede": "Unicentro Cúcuta", "ventas": 18, "meta": 54, "cumpl": 33.3}, {"sede": "Villa Carolina", "ventas": 16, "meta": 48, "cumpl": 33.3}, {"sede": "Bulevar de la Avenida", "ventas": 23, "meta": 67, "cumpl": 34.3}, {"sede": "Gran Plaza Ipiales", "ventas": 24, "meta": 69, "cumpl": 34.8}, {"sede": "Villa Campestre Plaza", "ventas": 19, "meta": 54, "cumpl": 35.2}, {"sede": "Unicentro Valledupar", "ventas": 15, "meta": 40, "cumpl": 37.5}, {"sede": "Metro Bello", "ventas": 17, "meta": 44, "cumpl": 38.6}, {"sede": "Viva Sincelejo", "ventas": 25, "meta": 63, "cumpl": 39.7}, {"sede": "Mallplaza Cali", "ventas": 25, "meta": 63, "cumpl": 39.7}, {"sede": "Viva Tunja", "ventas": 16, "meta": 39, "cumpl": 41.0}, {"sede": "El Campestre", "ventas": 23, "meta": 54, "cumpl": 42.6}, {"sede": "Unicentro Pereira", "ventas": 26, "meta": 59, "cumpl": 44.1}, {"sede": "Niza", "ventas": 19, "meta": 43, "cumpl": 44.2}, {"sede": "Ocean Mall Santa Marta", "ventas": 18, "meta": 39, "cumpl": 46.2}, {"sede": "Buenos Aires Tranvía", "ventas": 21, "meta": 45, "cumpl": 46.7}]}, "cri": {"nombre": "Costa Rica", "moneda": "USD", "meta_dia": 119, "acum_ventas": 589, "acum_meta": 524, "meta_mes": 3935, "mes_pct": 15.0, "prev_ventas": 316, "py_ventas": 585, "daily": [{"date": "1 Jun", "ventas": 271, "meta": 213}, {"date": "2 Jun", "ventas": 196, "meta": 174}, {"date": "3 Jun", "ventas": 122, "meta": 137}], "canales": [{"n": "Tótem", "a": 383, "p": 162, "y": 126}, {"n": "Web", "a": 161, "p": 140, "y": 339}, {"n": "Recepción", "a": 37, "p": 9, "y": 109}, {"n": "Tu Espacio", "a": 3, "p": 1, "y": 6}, {"n": "App", "a": 5, "p": 4, "y": 5}], "sedes_sin": ["San Sebastián "], "sedes_malas": []}, "pan": {"nombre": "Panamá", "moneda": "USD", "meta_dia": 162, "acum_ventas": 525, "acum_meta": 741, "meta_mes": 4812, "mes_pct": 10.9, "prev_ventas": 252, "py_ventas": 550, "daily": [{"date": "1 Jun", "ventas": 267, "meta": 293}, {"date": "2 Jun", "ventas": 151, "meta": 250}, {"date": "3 Jun", "ventas": 107, "meta": 198}], "canales": [{"n": "Tótem", "a": 245, "p": 79, "y": 43}, {"n": "Web", "a": 149, "p": 126, "y": 363}, {"n": "Recepción", "a": 123, "p": 37, "y": 136}, {"n": "Tu Espacio", "a": 2, "p": 2, "y": 4}, {"n": "App", "a": 6, "p": 8, "y": 4}], "sedes_sin": [], "sedes_malas": [{"sede": "City Plaza Crisol", "ventas": 12, "meta": 33, "cumpl": 36.4}, {"sede": "Costa Verde", "ventas": 28, "meta": 69, "cumpl": 40.6}, {"sede": "Versalles", "ventas": 18, "meta": 40, "cumpl": 45.0}, {"sede": "Atlantic Plaza", "ventas": 12, "meta": 26, "cumpl": 46.2}]}, "per": {"nombre": "Perú", "moneda": "PEN", "meta_dia": 696, "acum_ventas": 3031, "acum_meta": 2851, "meta_mes": 20122, "mes_pct": 15.1, "prev_ventas": 766, "py_ventas": 2781, "daily": [{"date": "1 Jun", "ventas": 1385, "meta": 1182}, {"date": "2 Jun", "ventas": 916, "meta": 903}, {"date": "3 Jun", "ventas": 730, "meta": 766}], "canales": [{"n": "Tótem", "a": 1115, "p": 222, "y": 987}, {"n": "Web", "a": 679, "p": 246, "y": 546}, {"n": "Recepción", "a": 1196, "p": 280, "y": 1184}, {"n": "Tu Espacio", "a": 6, "p": 5, "y": 31}, {"n": "App", "a": 35, "p": 13, "y": 33}], "sedes_sin": ["Parque Las Naciones San Miguel ", "Plaza del Sol Huacho ", "Plaza San Miguel "], "sedes_malas": [{"sede": "Centro - Arequipa", "ventas": 14, "meta": 56, "cumpl": 25.0}, {"sede": "Real Plaza Chiclayo", "ventas": 7, "meta": 23, "cumpl": 30.4}, {"sede": "Plaza del Sol Huacho ", "ventas": 22, "meta": 71, "cumpl": 31.0}, {"sede": "Pizarro - Trujillo", "ventas": 30, "meta": 75, "cumpl": 40.0}, {"sede": "Tottus Huaylas", "ventas": 8, "meta": 18, "cumpl": 44.4}]}};
 const META = {"acum_label": "1–3 Jun 2026", "today_label": "4 Jun", "header_sub": "Datos del 1 al 3 de June 2026", "footer_txt": "Smart Fit · Datos al 3 Jun 2026 · Carga 04/06/2026", "prev_mes": "May", "py_mes": "Jun 2025", "cur_mes": "Jun 2026"};
 const charts = {};
 
@@ -152,14 +152,18 @@ function renderPanel(key) {
     const barW  = maxCanal > 0 ? Math.round(cn.a / maxCanal * 100) : 0;
     const share = totalCanal > 0 ? (cn.a / totalCanal * 100).toFixed(1) : '0';
     const chg   = cn.p > 0 ? (cn.a - cn.p) / cn.p * 100 : 0;
-    const cls   = chg >= 0 ? 'up' : 'down';
-    const str   = (chg >= 0 ? '▲' : '▼') + Math.abs(chg).toFixed(1) + '%';
+    const chgY  = cn.y > 0 ? (cn.a - cn.y) / cn.y * 100 : 0;
+    const cls   = chg  >= 0 ? 'up' : 'down';
+    const clsY  = chgY >= 0 ? 'up' : 'down';
+    const str   = (chg  >= 0 ? '▲' : '▼') + Math.abs(chg).toFixed(1)  + '%';
+    const strY  = (chgY >= 0 ? '▲' : '▼') + Math.abs(chgY).toFixed(1) + '%';
     return `<tr>
       <td class="canal-name">${cn.n}</td>
       <td class="canal-bar-col"><div class="bar-bg"><div class="bar-fill" style="width:${barW}%"></div></div></td>
       <td class="canal-num">${N(cn.a)}</td>
       <td class="canal-pct">${share}%</td>
       <td class="canal-var ${cls}">${str}</td>
+      <td class="canal-var ${clsY}">${strY}</td>
     </tr>`;
   }).join('');
 
@@ -184,12 +188,12 @@ function renderPanel(key) {
       <div class="kpi-card">
         <div class="kpi-label">Diferencia</div>
         <div class="kpi-val" style="color:${mtdVsMeta >= 0 ? '#38a169' : '#e53e3e'}">${mtdVsMeta >= 0 ? '+' : ''}${N(mtdVsMeta)}</div>
-        <div class="kpi-sub ${mtdPct >= 80 ? 'green' : 'red'}">${mtdPct.toFixed(1)}% cumpl.</div>
+        <div class="kpi-sub ${mtdPct >= 80 ? 'green' : 'red'}">${mtdPct.toFixed(1)}% cumpl. acum.</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Meta hoy (${META.today_label})</div>
         <div class="kpi-val" style="color:#111">${N(c.meta_dia)}</div>
-        <div class="kpi-sub gray">objetivo del día</div>
+        <div class="kpi-sub gray">Meta mes: ${N(c.meta_mes)} <span style="color:${c.mes_pct>=80?'#38a169':'#e53e3e'};font-weight:700">${c.mes_pct}%</span></div>
       </div>
     </div>
 
@@ -234,19 +238,47 @@ function renderPanel(key) {
     </div>
 
     <div class="canal-card">
-      <div class="canal-title">Canales MTD · Participación y variación vs ${META.prev_mes}</div>
+      <div class="canal-title">Canales MTD · Participación y variación</div>
       <table class="canal-table">
         <thead><tr>
           <th>Canal</th><th></th>
           <th style="text-align:right">Vtas</th>
           <th style="text-align:right">%</th>
           <th style="text-align:right">VS ${META.prev_mes.toUpperCase()}</th>
+          <th style="text-align:right">VS ${META.py_mes.toUpperCase()}</th>
         </tr></thead>
         <tbody>${canalRows}</tbody>
       </table>
     </div>
 
     ${alertsHtml}
+
+    ${c.sedes_malas.length > 0 ? `
+    <div style="margin-top:10px;">
+      <details>
+        <summary style="cursor:pointer;font-size:11px;font-weight:700;color:#e53e3e;text-transform:uppercase;letter-spacing:0.07em;padding:10px 14px;background:#fff5f5;border:1.5px solid #fc8181;border-radius:10px;list-style:none;">
+          ⚠️ Top sedes con bajo cumplimiento (&lt;50%) — ${c.sedes_malas.length} sede(s)
+        </summary>
+        <div style="border:1.5px solid #fc8181;border-top:none;border-radius:0 0 10px 10px;overflow:hidden;">
+          <table style="width:100%;border-collapse:collapse;font-size:12px;">
+            <thead><tr style="background:#fff5f5;">
+              <th style="padding:6px 10px;text-align:left;color:#aaa;font-size:10px;text-transform:uppercase;">Sede</th>
+              <th style="padding:6px 10px;text-align:right;color:#aaa;font-size:10px;text-transform:uppercase;">Ventas</th>
+              <th style="padding:6px 10px;text-align:right;color:#aaa;font-size:10px;text-transform:uppercase;">Meta</th>
+              <th style="padding:6px 10px;text-align:right;color:#aaa;font-size:10px;text-transform:uppercase;">Cumpl.</th>
+            </tr></thead>
+            <tbody>
+              ${c.sedes_malas.map((s,i) => `<tr style="border-top:1px solid #f7f7f7;background:${i%2===0?'#fff':'#fafafa'}">
+                <td style="padding:6px 10px;font-weight:500;color:#333">${s.sede}</td>
+                <td style="padding:6px 10px;text-align:right">${N(s.ventas)}</td>
+                <td style="padding:6px 10px;text-align:right;color:#888">${N(s.meta)}</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:700;color:#e53e3e">${s.cumpl}%</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>` : ''}
   `;
 
   if (charts[key]) { charts[key].destroy(); delete charts[key]; }
