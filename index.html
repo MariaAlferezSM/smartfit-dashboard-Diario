@@ -106,6 +106,77 @@
   .alert-text { font-size: 13px; color: #333; font-weight: 500; line-height: 1.5; }
   .alert-text strong { color: #c53030; }
   .footer { text-align: center; margin-top: 24px; font-size: 11px; color: #bbb; }
+
+  /* ── BASE DE CLIENTES ─────────────────────────────────────── */
+  .bc-section-header {
+    display: flex; align-items: center; gap: 10px;
+    margin: 28px 0 16px;
+  }
+  .bc-section-title {
+    font-size: 11px; font-weight: 800; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #111;
+  }
+  .bc-section-line {
+    flex: 1; height: 1px; background: #e0e0e0;
+  }
+  .bc-kpi-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px;
+  }
+  .bc-kpi {
+    background: #fff; border-radius: 10px; padding: 14px 16px;
+    border: 1px solid #e8e8e8;
+  }
+  .bc-kpi.accent { background: #111; border-color: #111; }
+  .bc-kpi-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    color: #999; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .bc-kpi.accent .bc-kpi-label { color: #888; }
+  .bc-kpi-val { font-size: 24px; font-weight: 700; color: #111; line-height: 1; }
+  .bc-kpi.accent .bc-kpi-val { color: #FFB612; }
+  .bc-kpi-delta {
+    font-size: 12px; font-weight: 600; margin-top: 4px;
+  }
+  .bc-kpi-delta.up { color: #38a169; }
+  .bc-kpi-delta.down { color: #e53e3e; }
+  .bc-kpi-delta.neutral { color: #888; }
+  .bc-charts-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;
+  }
+  .bc-chart-card {
+    background: #fff; border-radius: 10px; padding: 16px 18px;
+    border: 1px solid #e8e8e8;
+  }
+  .bc-chart-title {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    color: #999; text-transform: uppercase; margin-bottom: 12px;
+  }
+  .bc-chart-wrap { position: relative; width: 100%; height: 200px; }
+  .bc-table-card {
+    background: #fff; border-radius: 10px; padding: 16px 18px;
+    border: 1px solid #e8e8e8; margin-bottom: 16px;
+  }
+  .bc-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .bc-table thead th {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+    color: #aaa; text-transform: uppercase;
+    padding: 0 10px 8px; border-bottom: 1px solid #f0f0f0; text-align: right;
+  }
+  .bc-table thead th:first-child { text-align: left; }
+  .bc-table tbody td {
+    padding: 8px 10px; border-bottom: 1px solid #f7f7f7; vertical-align: middle;
+  }
+  .bc-table tbody tr:last-child td { border-bottom: none; }
+  .bc-table td:not(:first-child) { text-align: right; }
+  .bc-tipo-dot {
+    display: inline-block; width: 8px; height: 8px;
+    border-radius: 50%; margin-right: 6px; vertical-align: middle;
+  }
+  .bc-alert {
+    border-radius: 10px; padding: 13px 16px; margin-bottom: 10px;
+    border: 1.5px solid #fc8181; background: #fff5f5;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
 </style>
 </head>
 <body>
@@ -175,9 +246,10 @@ function checkPwd() {
 </script>
 
 <script>
-const DATA = {"col": {"nombre": "Colombia", "moneda": "COP", "meta_dia": 3087, "acum_ventas": 46430, "acum_meta": 53316, "meta_mes": 56403, "mes_pct": 82.3, "prev_ventas": 42662, "py_ventas": 45307, "daily": [{"date": "1 Jun", "ventas": 3392, "meta": 3432}, {"date": "2 Jun", "ventas": 2724, "meta": 3130}, {"date": "3 Jun", "ventas": 2111, "meta": 2851}, {"date": "4 Jun", "ventas": 1622, "meta": 2163}, {"date": "5 Jun", "ventas": 1148, "meta": 1526}, {"date": "6 Jun", "ventas": 765, "meta": 1202}, {"date": "7 Jun", "ventas": 608, "meta": 888}, {"date": "8 Jun", "ventas": 1076, "meta": 1196}, {"date": "9 Jun", "ventas": 2845, "meta": 3086}, {"date": "10 Jun", "ventas": 2233, "meta": 2418}, {"date": "11 Jun", "ventas": 1674, "meta": 1879}, {"date": "12 Jun", "ventas": 1381, "meta": 1452}, {"date": "13 Jun", "ventas": 878, "meta": 1202}, {"date": "14 Jun", "ventas": 613, "meta": 1017}, {"date": "15 Jun", "ventas": 1298, "meta": 1196}, {"date": "16 Jun", "ventas": 3663, "meta": 3086}, {"date": "17 Jun", "ventas": 2510, "meta": 2026}, {"date": "18 Jun", "ventas": 1621, "meta": 1879}, {"date": "19 Jun", "ventas": 1469, "meta": 1568}, {"date": "20 Jun", "ventas": 976, "meta": 1202}, {"date": "21 Jun", "ventas": 593, "meta": 1017}, {"date": "22 Jun", "ventas": 3074, "meta": 3175}, {"date": "23 Jun", "ventas": 1855, "meta": 2319}, {"date": "24 Jun", "ventas": 1491, "meta": 2227}, {"date": "25 Jun", "ventas": 1433, "meta": 1715}, {"date": "26 Jun", "ventas": 1063, "meta": 1560}, {"date": "27 Jun", "ventas": 693, "meta": 1048}, {"date": "28 Jun", "ventas": 501, "meta": 659}, {"date": "29 Jun", "ventas": 1120, "meta": 1197}], "canales": [{"n": "Tótem", "a": 18500, "p": 17047, "y": 15155}, {"n": "Web", "a": 16930, "p": 15379, "y": 14575}, {"n": "Recepción", "a": 10452, "p": 9732, "y": 14770}, {"n": "Tu Espacio", "a": 237, "p": 268, "y": 598}, {"n": "App", "a": 311, "p": 236, "y": 209}], "sedes_sin": ["La Central Buenos Aires"], "sedes_malas": [{"sede": "Envigado Barrio Obrero", "ventas": 92, "meta": 371, "cumpl": 24.8}, {"sede": "Bulevar de la Avenida", "ventas": 146, "meta": 383, "cumpl": 38.1}, {"sede": "Metro Mosquera", "ventas": 91, "meta": 229, "cumpl": 39.7}, {"sede": "Viva Sincelejo", "ventas": 144, "meta": 359, "cumpl": 40.1}, {"sede": "Jumbo Las Vegas", "ventas": 129, "meta": 318, "cumpl": 40.6}, {"sede": "El Campestre", "ventas": 125, "meta": 308, "cumpl": 40.6}, {"sede": "Metro Bello", "ventas": 104, "meta": 250, "cumpl": 41.6}, {"sede": "Monteclaro", "ventas": 130, "meta": 304, "cumpl": 42.8}, {"sede": "Niza", "ventas": 111, "meta": 242, "cumpl": 45.9}, {"sede": "De Moda Outlet", "ventas": 114, "meta": 240, "cumpl": 47.5}, {"sede": "Avenida Sexta", "ventas": 126, "meta": 265, "cumpl": 47.5}, {"sede": "Gran Plaza Ipiales", "ventas": 186, "meta": 388, "cumpl": 47.9}, {"sede": "Unicentro Pereira", "ventas": 163, "meta": 336, "cumpl": 48.5}, {"sede": "Villa Campestre Plaza", "ventas": 150, "meta": 308, "cumpl": 48.7}, {"sede": "Mallplaza Cali", "ventas": 177, "meta": 362, "cumpl": 48.9}, {"sede": "Manrique", "ventas": 204, "meta": 413, "cumpl": 49.4}, {"sede": "Santafé Medellín", "ventas": 176, "meta": 356, "cumpl": 49.4}, {"sede": "Cuatro Vientos", "ventas": 124, "meta": 250, "cumpl": 49.6}, {"sede": "La 14 de Buenaventura", "ventas": 109, "meta": 219, "cumpl": 49.8}]}, "cri": {"nombre": "Costa Rica", "moneda": "USD", "meta_dia": 174, "acum_ventas": 3647, "acum_meta": 3761, "meta_mes": 3935, "mes_pct": 92.7, "prev_ventas": 4483, "py_ventas": 3302, "daily": [{"date": "1 Jun", "ventas": 271, "meta": 213}, {"date": "2 Jun", "ventas": 196, "meta": 174}, {"date": "3 Jun", "ventas": 122, "meta": 137}, {"date": "4 Jun", "ventas": 112, "meta": 119}, {"date": "5 Jun", "ventas": 95, "meta": 94}, {"date": "6 Jun", "ventas": 66, "meta": 80}, {"date": "7 Jun", "ventas": 76, "meta": 70}, {"date": "8 Jun", "ventas": 167, "meta": 213}, {"date": "9 Jun", "ventas": 141, "meta": 174}, {"date": "10 Jun", "ventas": 119, "meta": 137}, {"date": "11 Jun", "ventas": 120, "meta": 119}, {"date": "12 Jun", "ventas": 97, "meta": 94}, {"date": "13 Jun", "ventas": 85, "meta": 80}, {"date": "14 Jun", "ventas": 107, "meta": 70}, {"date": "15 Jun", "ventas": 286, "meta": 213}, {"date": "16 Jun", "ventas": 177, "meta": 174}, {"date": "17 Jun", "ventas": 141, "meta": 137}, {"date": "18 Jun", "ventas": 80, "meta": 119}, {"date": "19 Jun", "ventas": 89, "meta": 94}, {"date": "20 Jun", "ventas": 66, "meta": 80}, {"date": "21 Jun", "ventas": 57, "meta": 70}, {"date": "22 Jun", "ventas": 158, "meta": 213}, {"date": "23 Jun", "ventas": 116, "meta": 174}, {"date": "24 Jun", "ventas": 102, "meta": 137}, {"date": "25 Jun", "ventas": 85, "meta": 119}, {"date": "26 Jun", "ventas": 91, "meta": 94}, {"date": "27 Jun", "ventas": 81, "meta": 80}, {"date": "28 Jun", "ventas": 86, "meta": 70}, {"date": "29 Jun", "ventas": 258, "meta": 213}], "canales": [{"n": "Tótem", "a": 1945, "p": 2358, "y": 701}, {"n": "Web", "a": 1382, "p": 1754, "y": 1833}, {"n": "Recepción", "a": 225, "p": 272, "y": 692}, {"n": "Tu Espacio", "a": 38, "p": 24, "y": 31}, {"n": "App", "a": 57, "p": 75, "y": 45}], "sedes_sin": [], "sedes_malas": [{"sede": "La Ribera", "ventas": 102, "meta": 229, "cumpl": 44.5}]}, "pan": {"nombre": "Panamá", "moneda": "USD", "meta_dia": 201, "acum_ventas": 3664, "acum_meta": 4611, "meta_mes": 4812, "mes_pct": 76.1, "prev_ventas": 3751, "py_ventas": 3542, "daily": [{"date": "1 Jun", "ventas": 267, "meta": 293}, {"date": "2 Jun", "ventas": 151, "meta": 250}, {"date": "3 Jun", "ventas": 107, "meta": 198}, {"date": "4 Jun", "ventas": 107, "meta": 162}, {"date": "5 Jun", "ventas": 77, "meta": 122}, {"date": "6 Jun", "ventas": 61, "meta": 76}, {"date": "7 Jun", "ventas": 67, "meta": 74}, {"date": "8 Jun", "ventas": 195, "meta": 289}, {"date": "9 Jun", "ventas": 163, "meta": 257}, {"date": "10 Jun", "ventas": 145, "meta": 194}, {"date": "11 Jun", "ventas": 122, "meta": 164}, {"date": "12 Jun", "ventas": 100, "meta": 120}, {"date": "13 Jun", "ventas": 80, "meta": 79}, {"date": "14 Jun", "ventas": 89, "meta": 79}, {"date": "15 Jun", "ventas": 279, "meta": 291}, {"date": "16 Jun", "ventas": 226, "meta": 245}, {"date": "17 Jun", "ventas": 119, "meta": 154}, {"date": "18 Jun", "ventas": 131, "meta": 154}, {"date": "19 Jun", "ventas": 90, "meta": 117}, {"date": "20 Jun", "ventas": 69, "meta": 79}, {"date": "21 Jun", "ventas": 54, "meta": 79}, {"date": "22 Jun", "ventas": 163, "meta": 245}, {"date": "23 Jun", "ventas": 81, "meta": 151}, {"date": "24 Jun", "ventas": 119, "meta": 151}, {"date": "25 Jun", "ventas": 101, "meta": 143}, {"date": "26 Jun", "ventas": 86, "meta": 88}, {"date": "27 Jun", "ventas": 62, "meta": 52}, {"date": "28 Jun", "ventas": 84, "meta": 47}, {"date": "29 Jun", "ventas": 269, "meta": 258}], "canales": [{"n": "Tótem", "a": 1491, "p": 1678, "y": 302}, {"n": "Web", "a": 1297, "p": 1236, "y": 2382}, {"n": "Recepción", "a": 775, "p": 733, "y": 819}, {"n": "Tu Espacio", "a": 23, "p": 25, "y": 24}, {"n": "App", "a": 78, "p": 79, "y": 15}], "sedes_sin": [], "sedes_malas": [{"sede": "Costa Verde", "ventas": 156, "meta": 427, "cumpl": 36.5}, {"sede": "Chanis", "ventas": 86, "meta": 175, "cumpl": 49.1}]}, "per": {"nombre": "Perú", "moneda": "PEN", "meta_dia": 898, "acum_ventas": 17196, "acum_meta": 19224, "meta_mes": 20122, "mes_pct": 85.5, "prev_ventas": 19473, "py_ventas": 16825, "daily": [{"date": "1 Jun", "ventas": 1385, "meta": 1182}, {"date": "2 Jun", "ventas": 916, "meta": 903}, {"date": "3 Jun", "ventas": 730, "meta": 766}, {"date": "4 Jun", "ventas": 642, "meta": 696}, {"date": "5 Jun", "ventas": 488, "meta": 533}, {"date": "6 Jun", "ventas": 288, "meta": 396}, {"date": "7 Jun", "ventas": 145, "meta": 235}, {"date": "8 Jun", "ventas": 1096, "meta": 993}, {"date": "9 Jun", "ventas": 762, "meta": 904}, {"date": "10 Jun", "ventas": 605, "meta": 769}, {"date": "11 Jun", "ventas": 536, "meta": 699}, {"date": "12 Jun", "ventas": 467, "meta": 537}, {"date": "13 Jun", "ventas": 295, "meta": 407}, {"date": "14 Jun", "ventas": 198, "meta": 236}, {"date": "15 Jun", "ventas": 1192, "meta": 1193}, {"date": "16 Jun", "ventas": 835, "meta": 908}, {"date": "17 Jun", "ventas": 733, "meta": 774}, {"date": "18 Jun", "ventas": 534, "meta": 698}, {"date": "19 Jun", "ventas": 413, "meta": 536}, {"date": "20 Jun", "ventas": 290, "meta": 404}, {"date": "21 Jun", "ventas": 138, "meta": 237}, {"date": "22 Jun", "ventas": 1262, "meta": 1196}, {"date": "23 Jun", "ventas": 765, "meta": 904}, {"date": "24 Jun", "ventas": 608, "meta": 772}, {"date": "25 Jun", "ventas": 507, "meta": 697}, {"date": "26 Jun", "ventas": 422, "meta": 532}, {"date": "27 Jun", "ventas": 301, "meta": 406}, {"date": "28 Jun", "ventas": 170, "meta": 232}, {"date": "29 Jun", "ventas": 473, "meta": 479}], "canales": [{"n": "Tótem", "a": 5874, "p": 6920, "y": 6399}, {"n": "Web", "a": 4763, "p": 4789, "y": 3012}, {"n": "Recepción", "a": 6319, "p": 7485, "y": 7054}, {"n": "Tu Espacio", "a": 80, "p": 98, "y": 190}, {"n": "App", "a": 160, "p": 181, "y": 170}], "sedes_sin": [], "sedes_malas": [{"sede": "Centro - Arequipa", "ventas": 125, "meta": 385, "cumpl": 32.5}, {"sede": "Plaza del Sol Huacho ", "ventas": 161, "meta": 495, "cumpl": 32.5}, {"sede": "Pizarro - Trujillo", "ventas": 205, "meta": 500, "cumpl": 41.0}, {"sede": "Real Plaza Primavera", "ventas": 205, "meta": 498, "cumpl": 41.2}, {"sede": "Grau Barranco", "ventas": 208, "meta": 504, "cumpl": 41.3}, {"sede": "Metro Colonial", "ventas": 211, "meta": 493, "cumpl": 42.8}]}};
+const DATA = {"col": {"nombre": "Colombia", "moneda": "COP", "meta_dia": 3087, "acum_ventas": 46430, "acum_meta": 53316, "meta_mes": 56403, "mes_pct": 82.3, "prev_ventas": 42662, "py_ventas": 45307, "daily": [{"date": "1 Jun", "ventas": 3392, "meta": 3432}, {"date": "2 Jun", "ventas": 2724, "meta": 3130}, {"date": "3 Jun", "ventas": 2111, "meta": 2851}, {"date": "4 Jun", "ventas": 1622, "meta": 2163}, {"date": "5 Jun", "ventas": 1148, "meta": 1526}, {"date": "6 Jun", "ventas": 765, "meta": 1202}, {"date": "7 Jun", "ventas": 608, "meta": 888}, {"date": "8 Jun", "ventas": 1076, "meta": 1196}, {"date": "9 Jun", "ventas": 2845, "meta": 3086}, {"date": "10 Jun", "ventas": 2233, "meta": 2418}, {"date": "11 Jun", "ventas": 1674, "meta": 1879}, {"date": "12 Jun", "ventas": 1381, "meta": 1452}, {"date": "13 Jun", "ventas": 878, "meta": 1202}, {"date": "14 Jun", "ventas": 613, "meta": 1017}, {"date": "15 Jun", "ventas": 1298, "meta": 1196}, {"date": "16 Jun", "ventas": 3663, "meta": 3086}, {"date": "17 Jun", "ventas": 2510, "meta": 2026}, {"date": "18 Jun", "ventas": 1621, "meta": 1879}, {"date": "19 Jun", "ventas": 1469, "meta": 1568}, {"date": "20 Jun", "ventas": 976, "meta": 1202}, {"date": "21 Jun", "ventas": 593, "meta": 1017}, {"date": "22 Jun", "ventas": 3074, "meta": 3175}, {"date": "23 Jun", "ventas": 1855, "meta": 2319}, {"date": "24 Jun", "ventas": 1491, "meta": 2227}, {"date": "25 Jun", "ventas": 1433, "meta": 1715}, {"date": "26 Jun", "ventas": 1063, "meta": 1560}, {"date": "27 Jun", "ventas": 693, "meta": 1048}, {"date": "28 Jun", "ventas": 501, "meta": 659}, {"date": "29 Jun", "ventas": 1120, "meta": 1197}], "canales": [{"n": "Tótem", "a": 18500, "p": 17047, "y": 15155}, {"n": "Web", "a": 16930, "p": 15379, "y": 14575}, {"n": "Recepción", "a": 10452, "p": 9732, "y": 14770}, {"n": "Tu Espacio", "a": 237, "p": 268, "y": 598}, {"n": "App", "a": 311, "p": 236, "y": 209}], "sedes_sin": ["La Central Buenos Aires"], "sedes_malas": [{"sede": "Envigado Barrio Obrero", "ventas": 92, "meta": 371, "cumpl": 24.8}, {"sede": "Bulevar de la Avenida", "ventas": 146, "meta": 383, "cumpl": 38.1}, {"sede": "Metro Mosquera", "ventas": 91, "meta": 229, "cumpl": 39.7}, {"sede": "Viva Sincelejo", "ventas": 144, "meta": 359, "cumpl": 40.1}, {"sede": "Jumbo Las Vegas", "ventas": 129, "meta": 318, "cumpl": 40.6}, {"sede": "El Campestre", "ventas": 125, "meta": 308, "cumpl": 40.6}, {"sede": "Metro Bello", "ventas": 104, "meta": 250, "cumpl": 41.6}, {"sede": "Monteclaro", "ventas": 130, "meta": 304, "cumpl": 42.8}, {"sede": "Niza", "ventas": 111, "meta": 242, "cumpl": 45.9}, {"sede": "De Moda Outlet", "ventas": 114, "meta": 240, "cumpl": 47.5}, {"sede": "Avenida Sexta", "ventas": 126, "meta": 265, "cumpl": 47.5}, {"sede": "Gran Plaza Ipiales", "ventas": 186, "meta": 388, "cumpl": 47.9}, {"sede": "Unicentro Pereira", "ventas": 163, "meta": 336, "cumpl": 48.5}, {"sede": "Villa Campestre Plaza", "ventas": 150, "meta": 308, "cumpl": 48.7}, {"sede": "Mallplaza Cali", "ventas": 177, "meta": 362, "cumpl": 48.9}, {"sede": "Manrique", "ventas": 204, "meta": 413, "cumpl": 49.4}, {"sede": "Santafé Medellín", "ventas": 176, "meta": 356, "cumpl": 49.4}, {"sede": "Cuatro Vientos", "ventas": 124, "meta": 250, "cumpl": 49.6}, {"sede": "La 14 de Buenaventura", "ventas": 109, "meta": 219, "cumpl": 49.8}], "base_clientes": {"activos_hoy": 734170, "activos_prev": 733016, "activos_delta": 1154, "activos_pct": 0.2, "activos_hist": [{"label": "Jan", "value": 725946}, {"label": "Feb", "value": 731698}, {"label": "Mar", "value": 730039}, {"label": "Apr", "value": 732617}, {"label": "May", "value": 733016}, {"label": "Jun", "value": 734170}], "activos_por_plan": {"Black": 510287, "Fit": 133048, "Smart": 90734, "black sin permanencia": 101}, "cancelados_hoy": 46135, "cancelados_prev": 47305, "cancelados_delta": -1170, "cancelados_pct": -2.5, "cancelados_hist": [{"label": "Jan", "value": 49779}, {"label": "Feb", "value": 50960}, {"label": "Mar", "value": 53438}, {"label": "Apr", "value": 47223}, {"label": "May", "value": 47305}, {"label": "Jun", "value": 46135}], "can_por_tipo": {"Voluntario": 26077, "Automático": 19909, "Expulsado": 149}, "cancelados_por_tipo_hist": {"Voluntario": [{"label": "Jan", "value": 30395}, {"label": "Feb", "value": 32052}, {"label": "Mar", "value": 33011}, {"label": "Apr", "value": 29517}, {"label": "May", "value": 29491}, {"label": "Jun", "value": 26077}], "Automático": [{"label": "Jan", "value": 19166}, {"label": "Feb", "value": 18653}, {"label": "Mar", "value": 20203}, {"label": "Apr", "value": 17479}, {"label": "May", "value": 17570}, {"label": "Jun", "value": 19909}], "Expulsado": [{"label": "Jan", "value": 218}, {"label": "Feb", "value": 255}, {"label": "Mar", "value": 224}, {"label": "Apr", "value": 227}, {"label": "May", "value": 244}, {"label": "Jun", "value": 149}]}, "inadimplentes_hoy": 78530, "inadimplentes_prev": 94821, "inadimplentes_delta": -16291, "inadimplentes_pct": -17.2, "tasa_inadimplencia": 10.7, "inadimplentes_hist": [{"label": "Jan", "value": 87456}, {"label": "Feb", "value": 89077}, {"label": "Mar", "value": 80110}, {"label": "Apr", "value": 72495}, {"label": "May", "value": 94821}, {"label": "Jun", "value": 78530}], "churn_rate": 6.3}}, "cri": {"nombre": "Costa Rica", "moneda": "USD", "meta_dia": 174, "acum_ventas": 3647, "acum_meta": 3761, "meta_mes": 3935, "mes_pct": 92.7, "prev_ventas": 4483, "py_ventas": 3302, "daily": [{"date": "1 Jun", "ventas": 271, "meta": 213}, {"date": "2 Jun", "ventas": 196, "meta": 174}, {"date": "3 Jun", "ventas": 122, "meta": 137}, {"date": "4 Jun", "ventas": 112, "meta": 119}, {"date": "5 Jun", "ventas": 95, "meta": 94}, {"date": "6 Jun", "ventas": 66, "meta": 80}, {"date": "7 Jun", "ventas": 76, "meta": 70}, {"date": "8 Jun", "ventas": 167, "meta": 213}, {"date": "9 Jun", "ventas": 141, "meta": 174}, {"date": "10 Jun", "ventas": 119, "meta": 137}, {"date": "11 Jun", "ventas": 120, "meta": 119}, {"date": "12 Jun", "ventas": 97, "meta": 94}, {"date": "13 Jun", "ventas": 85, "meta": 80}, {"date": "14 Jun", "ventas": 107, "meta": 70}, {"date": "15 Jun", "ventas": 286, "meta": 213}, {"date": "16 Jun", "ventas": 177, "meta": 174}, {"date": "17 Jun", "ventas": 141, "meta": 137}, {"date": "18 Jun", "ventas": 80, "meta": 119}, {"date": "19 Jun", "ventas": 89, "meta": 94}, {"date": "20 Jun", "ventas": 66, "meta": 80}, {"date": "21 Jun", "ventas": 57, "meta": 70}, {"date": "22 Jun", "ventas": 158, "meta": 213}, {"date": "23 Jun", "ventas": 116, "meta": 174}, {"date": "24 Jun", "ventas": 102, "meta": 137}, {"date": "25 Jun", "ventas": 85, "meta": 119}, {"date": "26 Jun", "ventas": 91, "meta": 94}, {"date": "27 Jun", "ventas": 81, "meta": 80}, {"date": "28 Jun", "ventas": 86, "meta": 70}, {"date": "29 Jun", "ventas": 258, "meta": 213}], "canales": [{"n": "Tótem", "a": 1945, "p": 2358, "y": 701}, {"n": "Web", "a": 1382, "p": 1754, "y": 1833}, {"n": "Recepción", "a": 225, "p": 272, "y": 692}, {"n": "Tu Espacio", "a": 38, "p": 24, "y": 31}, {"n": "App", "a": 57, "p": 75, "y": 45}], "sedes_sin": [], "sedes_malas": [{"sede": "La Ribera", "ventas": 102, "meta": 229, "cumpl": 44.5}], "base_clientes": {"activos_hoy": 68863, "activos_prev": 68026, "activos_delta": 837, "activos_pct": 1.2, "activos_hist": [{"label": "Jan", "value": 65625}, {"label": "Feb", "value": 66378}, {"label": "Mar", "value": 66692}, {"label": "Apr", "value": 67140}, {"label": "May", "value": 68026}, {"label": "Jun", "value": 68863}], "activos_por_plan": {"Black": 64710, "Fit": 843, "Smart": 3310}, "cancelados_hoy": 3517, "cancelados_prev": 3802, "cancelados_delta": -285, "cancelados_pct": -7.5, "cancelados_hist": [{"label": "Jan", "value": 3422}, {"label": "Feb", "value": 3737}, {"label": "Mar", "value": 4054}, {"label": "Apr", "value": 3844}, {"label": "May", "value": 3802}, {"label": "Jun", "value": 3517}], "can_por_tipo": {"Voluntario": 1700, "Automático": 1814, "Expulsado": 3}, "cancelados_por_tipo_hist": {"Voluntario": [{"label": "Jan", "value": 1796}, {"label": "Feb", "value": 2079}, {"label": "Mar", "value": 2444}, {"label": "Apr", "value": 2157}, {"label": "May", "value": 2086}, {"label": "Jun", "value": 1700}], "Automático": [{"label": "Jan", "value": 1619}, {"label": "Feb", "value": 1637}, {"label": "Mar", "value": 1608}, {"label": "Apr", "value": 1678}, {"label": "May", "value": 1713}, {"label": "Jun", "value": 1814}], "Expulsado": [{"label": "Jan", "value": 7}, {"label": "Feb", "value": 21}, {"label": "Mar", "value": 2}, {"label": "Apr", "value": 9}, {"label": "May", "value": 3}, {"label": "Jun", "value": 3}]}, "inadimplentes_hoy": 6246, "inadimplentes_prev": 5098, "inadimplentes_delta": 1148, "inadimplentes_pct": 22.5, "tasa_inadimplencia": 9.1, "inadimplentes_hist": [{"label": "Jan", "value": 4881}, {"label": "Feb", "value": 5127}, {"label": "Mar", "value": 4874}, {"label": "Apr", "value": 5372}, {"label": "May", "value": 5098}, {"label": "Jun", "value": 6246}], "churn_rate": 5.2}}, "pan": {"nombre": "Panamá", "moneda": "USD", "meta_dia": 201, "acum_ventas": 3664, "acum_meta": 4611, "meta_mes": 4812, "mes_pct": 76.1, "prev_ventas": 3751, "py_ventas": 3542, "daily": [{"date": "1 Jun", "ventas": 267, "meta": 293}, {"date": "2 Jun", "ventas": 151, "meta": 250}, {"date": "3 Jun", "ventas": 107, "meta": 198}, {"date": "4 Jun", "ventas": 107, "meta": 162}, {"date": "5 Jun", "ventas": 77, "meta": 122}, {"date": "6 Jun", "ventas": 61, "meta": 76}, {"date": "7 Jun", "ventas": 67, "meta": 74}, {"date": "8 Jun", "ventas": 195, "meta": 289}, {"date": "9 Jun", "ventas": 163, "meta": 257}, {"date": "10 Jun", "ventas": 145, "meta": 194}, {"date": "11 Jun", "ventas": 122, "meta": 164}, {"date": "12 Jun", "ventas": 100, "meta": 120}, {"date": "13 Jun", "ventas": 80, "meta": 79}, {"date": "14 Jun", "ventas": 89, "meta": 79}, {"date": "15 Jun", "ventas": 279, "meta": 291}, {"date": "16 Jun", "ventas": 226, "meta": 245}, {"date": "17 Jun", "ventas": 119, "meta": 154}, {"date": "18 Jun", "ventas": 131, "meta": 154}, {"date": "19 Jun", "ventas": 90, "meta": 117}, {"date": "20 Jun", "ventas": 69, "meta": 79}, {"date": "21 Jun", "ventas": 54, "meta": 79}, {"date": "22 Jun", "ventas": 163, "meta": 245}, {"date": "23 Jun", "ventas": 81, "meta": 151}, {"date": "24 Jun", "ventas": 119, "meta": 151}, {"date": "25 Jun", "ventas": 101, "meta": 143}, {"date": "26 Jun", "ventas": 86, "meta": 88}, {"date": "27 Jun", "ventas": 62, "meta": 52}, {"date": "28 Jun", "ventas": 84, "meta": 47}, {"date": "29 Jun", "ventas": 269, "meta": 258}], "canales": [{"n": "Tótem", "a": 1491, "p": 1678, "y": 302}, {"n": "Web", "a": 1297, "p": 1236, "y": 2382}, {"n": "Recepción", "a": 775, "p": 733, "y": 819}, {"n": "Tu Espacio", "a": 23, "p": 25, "y": 24}, {"n": "App", "a": 78, "p": 79, "y": 15}], "sedes_sin": [], "sedes_malas": [{"sede": "Costa Verde", "ventas": 156, "meta": 427, "cumpl": 36.5}, {"sede": "Chanis", "ventas": 86, "meta": 175, "cumpl": 49.1}], "base_clientes": {"activos_hoy": 58851, "activos_prev": 58431, "activos_delta": 420, "activos_pct": 0.7, "activos_hist": [{"label": "Jan", "value": 56617}, {"label": "Feb", "value": 56506}, {"label": "Mar", "value": 57624}, {"label": "Apr", "value": 58386}, {"label": "May", "value": 58431}, {"label": "Jun", "value": 58851}], "activos_por_plan": {"Black": 45520, "Fit": 7581, "Smart": 5750}, "cancelados_hoy": 3242, "cancelados_prev": 3867, "cancelados_delta": -625, "cancelados_pct": -16.2, "cancelados_hist": [{"label": "Jan", "value": 3183}, {"label": "Feb", "value": 3591}, {"label": "Mar", "value": 3614}, {"label": "Apr", "value": 3677}, {"label": "May", "value": 3867}, {"label": "Jun", "value": 3242}], "can_por_tipo": {"Voluntario": 1543, "Automático": 1687, "Expulsado": 12}, "cancelados_por_tipo_hist": {"Voluntario": [{"label": "Jan", "value": 1321}, {"label": "Feb", "value": 1931}, {"label": "Mar", "value": 1913}, {"label": "Apr", "value": 1796}, {"label": "May", "value": 1916}, {"label": "Jun", "value": 1543}], "Automático": [{"label": "Jan", "value": 1854}, {"label": "Feb", "value": 1646}, {"label": "Mar", "value": 1693}, {"label": "Apr", "value": 1875}, {"label": "May", "value": 1938}, {"label": "Jun", "value": 1687}], "Expulsado": [{"label": "Jan", "value": 8}, {"label": "Feb", "value": 14}, {"label": "Mar", "value": 8}, {"label": "Apr", "value": 6}, {"label": "May", "value": 13}, {"label": "Jun", "value": 12}]}, "inadimplentes_hoy": 5653, "inadimplentes_prev": 5508, "inadimplentes_delta": 145, "inadimplentes_pct": 2.6, "tasa_inadimplencia": 9.6, "inadimplentes_hist": [{"label": "Jan", "value": 5455}, {"label": "Feb", "value": 6075}, {"label": "Mar", "value": 5780}, {"label": "Apr", "value": 5887}, {"label": "May", "value": 5508}, {"label": "Jun", "value": 5653}], "churn_rate": 5.5}}, "per": {"nombre": "Perú", "moneda": "PEN", "meta_dia": 898, "acum_ventas": 17196, "acum_meta": 19224, "meta_mes": 20122, "mes_pct": 85.5, "prev_ventas": 19473, "py_ventas": 16825, "daily": [{"date": "1 Jun", "ventas": 1385, "meta": 1182}, {"date": "2 Jun", "ventas": 916, "meta": 903}, {"date": "3 Jun", "ventas": 730, "meta": 766}, {"date": "4 Jun", "ventas": 642, "meta": 696}, {"date": "5 Jun", "ventas": 488, "meta": 533}, {"date": "6 Jun", "ventas": 288, "meta": 396}, {"date": "7 Jun", "ventas": 145, "meta": 235}, {"date": "8 Jun", "ventas": 1096, "meta": 993}, {"date": "9 Jun", "ventas": 762, "meta": 904}, {"date": "10 Jun", "ventas": 605, "meta": 769}, {"date": "11 Jun", "ventas": 536, "meta": 699}, {"date": "12 Jun", "ventas": 467, "meta": 537}, {"date": "13 Jun", "ventas": 295, "meta": 407}, {"date": "14 Jun", "ventas": 198, "meta": 236}, {"date": "15 Jun", "ventas": 1192, "meta": 1193}, {"date": "16 Jun", "ventas": 835, "meta": 908}, {"date": "17 Jun", "ventas": 733, "meta": 774}, {"date": "18 Jun", "ventas": 534, "meta": 698}, {"date": "19 Jun", "ventas": 413, "meta": 536}, {"date": "20 Jun", "ventas": 290, "meta": 404}, {"date": "21 Jun", "ventas": 138, "meta": 237}, {"date": "22 Jun", "ventas": 1262, "meta": 1196}, {"date": "23 Jun", "ventas": 765, "meta": 904}, {"date": "24 Jun", "ventas": 608, "meta": 772}, {"date": "25 Jun", "ventas": 507, "meta": 697}, {"date": "26 Jun", "ventas": 422, "meta": 532}, {"date": "27 Jun", "ventas": 301, "meta": 406}, {"date": "28 Jun", "ventas": 170, "meta": 232}, {"date": "29 Jun", "ventas": 473, "meta": 479}], "canales": [{"n": "Tótem", "a": 5874, "p": 6920, "y": 6399}, {"n": "Web", "a": 4763, "p": 4789, "y": 3012}, {"n": "Recepción", "a": 6319, "p": 7485, "y": 7054}, {"n": "Tu Espacio", "a": 80, "p": 98, "y": 190}, {"n": "App", "a": 160, "p": 181, "y": 170}], "sedes_sin": [], "sedes_malas": [{"sede": "Centro - Arequipa", "ventas": 125, "meta": 385, "cumpl": 32.5}, {"sede": "Plaza del Sol Huacho ", "ventas": 161, "meta": 495, "cumpl": 32.5}, {"sede": "Pizarro - Trujillo", "ventas": 205, "meta": 500, "cumpl": 41.0}, {"sede": "Real Plaza Primavera", "ventas": 205, "meta": 498, "cumpl": 41.2}, {"sede": "Grau Barranco", "ventas": 208, "meta": 504, "cumpl": 41.3}, {"sede": "Metro Colonial", "ventas": 211, "meta": 493, "cumpl": 42.8}], "base_clientes": {"activos_hoy": 300587, "activos_prev": 306307, "activos_delta": -5720, "activos_pct": -1.9, "activos_hist": [{"label": "Jan", "value": 309089}, {"label": "Feb", "value": 309568}, {"label": "Mar", "value": 311632}, {"label": "Apr", "value": 312228}, {"label": "May", "value": 306307}, {"label": "Jun", "value": 300587}], "activos_por_plan": {"Black": 252403, "Fit": 11800, "Plan Anual Black": 3, "Plan Yapero Black 12 meses": 95, "Plan Yapero Black 9 meses": 1328, "Smart": 34958}, "cancelados_hoy": 22672, "cancelados_prev": 23590, "cancelados_delta": -918, "cancelados_pct": -3.9, "cancelados_hist": [{"label": "Jan", "value": 21014}, {"label": "Feb", "value": 19776}, {"label": "Mar", "value": 20707}, {"label": "Apr", "value": 22923}, {"label": "May", "value": 23590}, {"label": "Jun", "value": 22672}], "can_por_tipo": {"Voluntario": 10929, "Automático": 11722, "Expulsado": 21}, "cancelados_por_tipo_hist": {"Voluntario": [{"label": "Jan", "value": 11438}, {"label": "Feb", "value": 9801}, {"label": "Mar", "value": 12124}, {"label": "Apr", "value": 11978}, {"label": "May", "value": 12307}, {"label": "Jun", "value": 10929}], "Automático": [{"label": "Jan", "value": 9571}, {"label": "Feb", "value": 9968}, {"label": "Mar", "value": 8567}, {"label": "Apr", "value": 9973}, {"label": "May", "value": 11268}, {"label": "Jun", "value": 11722}], "Expulsado": [{"label": "Jan", "value": 5}, {"label": "Feb", "value": 7}, {"label": "Mar", "value": 16}, {"label": "Apr", "value": 972}, {"label": "May", "value": 15}, {"label": "Jun", "value": 21}]}, "inadimplentes_hoy": 29387, "inadimplentes_prev": 34454, "inadimplentes_delta": -5067, "inadimplentes_pct": -14.7, "tasa_inadimplencia": 9.8, "inadimplentes_hist": [{"label": "Jan", "value": 32339}, {"label": "Feb", "value": 38513}, {"label": "Mar", "value": 37044}, {"label": "Apr", "value": 39972}, {"label": "May", "value": 34454}, {"label": "Jun", "value": 29387}], "churn_rate": 7.4}}};
 const META = {"acum_label": "1–29 Jun 2026", "today_label": "30 Jun", "header_sub": "Datos del 1 al 29 de June 2026", "footer_txt": "Smart Fit · Datos al 29 Jun 2026 · Carga 30/06/2026", "prev_mes": "May", "py_mes": "Jun 2025", "cur_mes": "Jun 2026"};
 const charts = {};
+Chart.register(ChartDataLabels);
 
 function N(n) { return n.toLocaleString('es-CO'); }
 
@@ -201,6 +273,7 @@ function buildAlerts(c) {
 
 function renderPanel(key) {
   const c = DATA[key];
+  const bc = c.base_clientes;
   const el = document.getElementById('panel-' + key);
   const mtdVsMeta = c.acum_ventas - c.acum_meta;
   const mtdPct = c.acum_meta > 0 ? c.acum_ventas / c.acum_meta * 100 : 0;
@@ -339,6 +412,81 @@ function renderPanel(key) {
         </tbody>
       </table>
     </div>` : ''}
+
+    <!-- ── BASE DE CLIENTES ──────────────────────────────────── -->
+    <div class="bc-section-header">
+      <span class="bc-section-title">📊 Base de Clientes — Histórico</span>
+      <div class="bc-section-line"></div>
+    </div>
+
+    <!-- KPIs resumen -->
+    <div class="bc-kpi-grid">
+      <div class="bc-kpi accent">
+        <div class="bc-kpi-label">Activos al ${META.acum_label.split('–')[1] || 'ayer'}</div>
+        <div class="bc-kpi-val">${N(bc.activos_hoy)}</div>
+        <div class="bc-kpi-delta ${bc.activos_delta >= 0 ? 'up' : 'down'}">
+          ${bc.activos_delta >= 0 ? '▲' : '▼'} ${N(Math.abs(bc.activos_delta))} (${bc.activos_pct >= 0 ? '+' : ''}${bc.activos_pct}%) vs período anterior
+        </div>
+      </div>
+      <div class="bc-kpi">
+        <div class="bc-kpi-label">Cancelados al ${META.acum_label ? META.acum_label.split('–')[1] : 'ayer'}</div>
+        <div class="bc-kpi-val" style="color:#e53e3e">${N(bc.cancelados_hoy)}</div>
+        <div class="bc-kpi-delta ${bc.cancelados_delta <= 0 ? 'up' : 'down'}">
+          ${bc.cancelados_delta >= 0 ? '▲' : '▼'} ${N(Math.abs(bc.cancelados_delta))} (${bc.cancelados_pct >= 0 ? '+' : ''}${bc.cancelados_pct}%) vs período anterior
+        </div>
+      </div>
+      <div class="bc-kpi">
+        <div class="bc-kpi-label">Inadimplentes</div>
+        <div class="bc-kpi-val" style="color:#e53e3e">${N(bc.inadimplentes_hoy)}</div>
+        <div class="bc-kpi-delta ${bc.inadimplentes_delta <= 0 ? 'up' : 'down'}">
+          ${bc.inadimplentes_delta >= 0 ? '▲' : '▼'} ${N(Math.abs(bc.inadimplentes_delta))} (${bc.inadimplentes_pct >= 0 ? '+' : ''}${bc.inadimplentes_pct}%) vs período anterior
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráficos históricos: activos (izq) | cancelados + tabla (der) -->
+    <div class="bc-charts-grid">
+      <div class="bc-chart-card">
+        <div class="bc-chart-title">Activos</div>
+        <div class="bc-chart-wrap"><canvas id="bc-chart-act-${key}"></canvas></div>
+      </div>
+      <div class="bc-chart-card" style="display:flex;flex-direction:column">
+        <div class="bc-chart-title">Cancelados</div>
+        <div class="bc-chart-wrap" style="height:180px"><canvas id="bc-chart-can-${key}"></canvas></div>
+        ${Object.keys(bc.can_por_tipo).length > 0 ? `
+        <table class="bc-table" style="margin-top:10px">
+          <thead><tr>
+            <th style="text-align:left">Tipo</th>
+            <th>Cantidad</th>
+            <th>% del total</th>
+          </tr></thead>
+          <tbody>
+            ${(() => {
+              const colores = {'Voluntario':'#000000','Automático':'#63636B','Expulsado':'#E88D35'};
+              const total = Object.values(bc.can_por_tipo).reduce((a,b)=>a+b,0);
+              return Object.entries(bc.can_por_tipo).map(([tipo, val]) => {
+                const pct = total > 0 ? (val/total*100).toFixed(1) : '0';
+                return `<tr>
+                  <td><span class="bc-tipo-dot" style="background:${colores[tipo]||'#a0aec0'}"></span>${tipo}</td>
+                  <td>${N(val)}</td>
+                  <td>${pct}%</td>
+                </tr>`;
+              }).join('') + `<tr style="font-weight:700;border-top:2px solid #f0f0f0">
+                <td>Total</td>
+                <td>${N(total)}</td>
+                <td>100%</td>
+              </tr>`;
+            })()}
+          </tbody>
+        </table>` : ''}
+      </div>
+    </div>
+
+    <!-- Inadimplentes — ancho completo -->
+    <div class="bc-chart-card" style="margin-top:8px;margin-bottom:16px">
+      <div class="bc-chart-title">Inadimplentes</div>
+      <div class="bc-chart-wrap" style="height:180px"><canvas id="bc-chart-ina-${key}"></canvas></div>
+    </div>
   `;
 
   if (charts[key]) { charts[key].destroy(); delete charts[key]; }
@@ -367,7 +515,7 @@ function renderPanel(key) {
         y: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { font: { size: 10 }, color: '#999', callback: v => v >= 1000 ? (v/1000).toFixed(0)+'k' : v } }
       }
     },
-    plugins: [ChartDataLabels, {
+    plugins: [{
       id: 'multiLabel',
       afterDatasetsDraw(chart) {
         const ctx2 = chart.ctx;
@@ -405,6 +553,141 @@ function renderPanel(key) {
       }
     }]
   });
+
+  // ── GRÁFICOS BASE DE CLIENTES ─────────────────────────────────────────────
+  const bcChartOpts = (title) => ({
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: 'bottom', labels: { font: { size: 10 }, boxWidth: 10, padding: 10 } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('es-CO')}` } },
+      datalabels: false
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#999', maxRotation: 0 } },
+      y: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { font: { size: 9 }, color: '#999', callback: v => v >= 1000 ? (v/1000).toFixed(0)+'k' : v } }
+    }
+  });
+
+  // Destruir gráficos bc anteriores si existen
+  ['act','can','ina'].forEach(t => {
+    const cid = 'bc-chart-' + t + '-' + key;
+    if (charts[cid]) { charts[cid].destroy(); delete charts[cid]; }
+  });
+
+  // Gráfico ACTIVOS — línea con cifras sobre cada punto
+  const actLabels = bc.activos_hist.map(p => p.label);
+  const actVals   = bc.activos_hist.map(p => p.value);
+  charts['bc-chart-act-' + key] = new Chart(
+    document.getElementById('bc-chart-act-' + key), {
+      type: 'line',
+      data: {
+        labels: actLabels,
+        datasets: [{
+          label: 'Activos',
+          data: actVals,
+          borderColor: '#FFB612',
+          backgroundColor: 'rgba(255,182,18,0.12)',
+          fill: true,
+          borderWidth: 2,
+          pointBackgroundColor: '#FFB612',
+          pointRadius: 4,
+          tension: 0.3
+        }]
+      },
+      options: {
+        ...bcChartOpts('Activos'),
+        layout: { padding: { top: 28 } },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => ` Activos: ${ctx.parsed.y.toLocaleString('es-CO')}` } },
+          datalabels: {
+            display: true,
+            anchor: 'top', align: 'top', offset: 4,
+            font: { size: 9, weight: 'bold' },
+            color: '#555',
+            formatter: v => v.toLocaleString('es-CO')
+          }
+        }
+      }
+    }
+  );
+
+  // Gráfico CANCELADOS — barras apiladas, colores corporativos
+  const canColors = {
+    'Voluntario': '#000000',
+    'Automático': '#63636B',
+    'Expulsado':  '#E88D35'
+  };
+  const canLabelsAll = [...new Set(
+    Object.values(bc.cancelados_por_tipo_hist).flatMap(serie => serie.map(p => p.label))
+  )].sort();
+  const canDatasets = Object.entries(bc.cancelados_por_tipo_hist).map(([tipo, serie]) => {
+    const byLabel = Object.fromEntries(serie.map(p => [p.label, p.value]));
+    return {
+      label: tipo,
+      data: canLabelsAll.map(l => byLabel[l] || 0),
+      backgroundColor: canColors[tipo] || '#a0aec0',
+      borderRadius: 2,
+      stack: 'can'
+    };
+  });
+  charts['bc-chart-can-' + key] = new Chart(
+    document.getElementById('bc-chart-can-' + key), {
+      type: 'bar',
+      data: { labels: canLabelsAll, datasets: canDatasets },
+      options: {
+        ...bcChartOpts('Cancelados'),
+        plugins: {
+          legend: { display: true, position: 'bottom', labels: { font: { size: 10 }, boxWidth: 10, padding: 10 } },
+          tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('es-CO')}` } },
+          datalabels: false
+        },
+        scales: {
+          x: { stacked: true, grid: { display: false }, ticks: { font: { size: 9 }, color: '#999', maxRotation: 0 } },
+          y: { stacked: true, grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { font: { size: 9 }, color: '#999', callback: v => v >= 1000 ? (v/1000).toFixed(0)+'k' : v } }
+        }
+      }
+    }
+  );
+
+  // Gráfico INADIMPLENTES — línea roja con cifras sobre cada punto
+  const inaLabels = bc.inadimplentes_hist.map(p => p.label);
+  const inaVals   = bc.inadimplentes_hist.map(p => p.value);
+  charts['bc-chart-ina-' + key] = new Chart(
+    document.getElementById('bc-chart-ina-' + key), {
+      type: 'line',
+      data: {
+        labels: inaLabels,
+        datasets: [{
+          label: 'Inadimplentes',
+          data: inaVals,
+          borderColor: '#e53e3e',
+          backgroundColor: 'rgba(229,62,62,0.08)',
+          fill: true,
+          borderWidth: 2,
+          pointBackgroundColor: '#e53e3e',
+          pointRadius: 4,
+          tension: 0.3
+        }]
+      },
+      options: {
+        ...bcChartOpts('Inadimplentes'),
+        layout: { padding: { top: 28 } },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => ` Inadimplentes: ${ctx.parsed.y.toLocaleString('es-CO')}` } },
+          datalabels: {
+            display: true,
+            anchor: 'top', align: 'top', offset: 4,
+            font: { size: 9, weight: 'bold' },
+            color: '#e53e3e',
+            formatter: v => v.toLocaleString('es-CO')
+          }
+        }
+      }
+    }
+  );
+  // ── FIN GRÁFICOS BASE DE CLIENTES ─────────────────────────────────────────
 }
 
 function showTab(key) {
