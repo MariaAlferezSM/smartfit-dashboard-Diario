@@ -425,28 +425,22 @@ function renderPanel(key) {
       <div class="bc-kpi accent">
         <div class="bc-kpi-label">Activos al ${META.acum_label.split('–')[1] || 'ayer'}</div>
         <div class="bc-kpi-val">${N(bc.activos_hoy)}</div>
-        <div class="bc-kpi-delta ${bc.activos_delta >= 0 ? 'up' : 'down'}">
-          ${bc.activos_delta >= 0 ? '▲' : '▼'} ${N(Math.abs(bc.activos_delta))} (${bc.activos_pct >= 0 ? '+' : ''}${bc.activos_pct}%) vs período anterior
-        </div>
-        ${bc.meta_act_hoy > 0 ? `<div style="margin-top:6px;font-size:11px;color:#FFB612;font-weight:600;">
-          Meta: ${N(bc.meta_act_hoy)} · ${bc.cumpl_act_pct >= 100 ? '✅' : '⚠️'} ${bc.cumpl_act_pct}% cumpl. · ${bc.act_vs_meta >= 0 ? '+' : ''}${N(bc.act_vs_meta)}
+        ${bc.meta_act_hoy > 0 ? `<div style="margin-top:8px;font-size:15px;color:#FFB612;font-weight:700;">
+          Meta: ${N(bc.meta_act_hoy)} &nbsp;·&nbsp; ${bc.cumpl_act_pct >= 100 ? '✅' : '⚠️'} ${bc.cumpl_act_pct}%
         </div>` : ''}
       </div>
       <div class="bc-kpi">
         <div class="bc-kpi-label">Cancelados al ${META.acum_label ? META.acum_label.split('–')[1] : 'ayer'}</div>
         <div class="bc-kpi-val" style="color:#e53e3e">${N(bc.cancelados_hoy)}</div>
-        <div class="bc-kpi-delta ${bc.cancelados_delta <= 0 ? 'up' : 'down'}">
-          ${bc.cancelados_delta >= 0 ? '▲' : '▼'} ${N(Math.abs(bc.cancelados_delta))} (${bc.cancelados_pct >= 0 ? '+' : ''}${bc.cancelados_pct}%) vs período anterior
-        </div>
-        ${bc.meta_can_hoy > 0 ? `<div style="margin-top:6px;font-size:11px;color:#e53e3e;font-weight:600;">
-          Meta: ${N(bc.meta_can_hoy)} · ${bc.cumpl_can_pct <= 100 ? '✅' : '🔴'} ${bc.cumpl_can_pct}% cumpl. (menor = mejor)
+        ${bc.meta_can_hoy > 0 ? `<div style="margin-top:8px;font-size:15px;color:#e53e3e;font-weight:700;">
+          Meta ≤ ${N(bc.meta_can_hoy)} &nbsp;·&nbsp; ${bc.cumpl_can_pct <= 100 ? '✅' : '🔴'} ${bc.cumpl_can_pct}%
         </div>` : ''}
       </div>
       <div class="bc-kpi">
         <div class="bc-kpi-label">Inadimplentes</div>
         <div class="bc-kpi-val" style="color:#e53e3e">${N(bc.inadimplentes_hoy)}</div>
-        <div class="bc-kpi-delta ${bc.inadimplentes_delta <= 0 ? 'up' : 'down'}">
-          ${bc.inadimplentes_delta >= 0 ? '▲' : '▼'} ${N(Math.abs(bc.inadimplentes_delta))} (${bc.inadimplentes_pct >= 0 ? '+' : ''}${bc.inadimplentes_pct}%) vs período anterior
+        <div style="margin-top:8px;font-size:15px;color:#e53e3e;font-weight:700;">
+          Tasa: ${bc.tasa_inadimplencia}%
         </div>
       </div>
     </div>
@@ -582,9 +576,10 @@ function renderPanel(key) {
   });
 
   // Gráfico ACTIVOS — línea con cifras sobre cada punto + línea de meta
-  const actLabels = bc.activos_hist.map(p => p.label);
-  const actVals   = bc.activos_hist.map(p => p.value);
-  const actMetaVals = bc.meta_act_hist.map(p => p.value);
+  const MONTH_ORD = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const actLabels = [...bc.activos_hist].sort((a,b) => MONTH_ORD.indexOf(a.label) - MONTH_ORD.indexOf(b.label)).map(p => p.label);
+  const actVals   = actLabels.map(l => bc.activos_hist.find(p => p.label === l)?.value || 0);
+  const actMetaVals = actLabels.map(l => (bc.meta_act_hist || []).find(p => p.label === l)?.value || 0);
   charts['bc-chart-act-' + key] = new Chart(
     document.getElementById('bc-chart-act-' + key), {
       type: 'line',
@@ -640,9 +635,11 @@ function renderPanel(key) {
     'Automático': '#63636B',
     'Expulsado':  '#E88D35'
   };
-  const canLabelsAll = [...new Set(
+  const MONTH_ORDER = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const canLabelsRaw = [...new Set(
     Object.values(bc.cancelados_por_tipo_hist).flatMap(serie => serie.map(p => p.label))
-  )].sort();
+  )];
+  const canLabelsAll = canLabelsRaw.sort((a,b) => MONTH_ORDER.indexOf(a) - MONTH_ORDER.indexOf(b));
   const canMetaByLabel = Object.fromEntries((bc.meta_can_hist || []).map(p => [p.label, p.value]));
   const canDatasets = Object.entries(bc.cancelados_por_tipo_hist).map(([tipo, serie]) => {
     const byLabel = Object.fromEntries(serie.map(p => [p.label, p.value]));
@@ -652,13 +649,14 @@ function renderPanel(key) {
       backgroundColor: canColors[tipo] || '#a0aec0',
       borderRadius: 2,
       stack: 'can',
-      type: 'bar'
+      type: 'bar',
+      datalabels: { display: false }
     };
   });
   // Agregar línea de meta cancelados si existe
   if (bc.meta_can_hoy > 0) {
     canDatasets.push({
-      label: 'Meta Cancelados',
+      label: 'Meta ≤',
       data: canLabelsAll.map(l => canMetaByLabel[l] || 0),
       borderColor: '#e53e3e',
       backgroundColor: 'transparent',
@@ -673,16 +671,42 @@ function renderPanel(key) {
       datalabels: { display: false }
     });
   }
+  // Dataset invisible para mostrar el total encima de cada barra apilada
+  const canTotals = canLabelsAll.map(l => {
+    return Object.entries(bc.cancelados_por_tipo_hist).reduce((sum, [tipo, serie]) => {
+      const byLabel = Object.fromEntries(serie.map(p => [p.label, p.value]));
+      return sum + (byLabel[l] || 0);
+    }, 0);
+  });
+  canDatasets.push({
+    label: '_totals',
+    data: canTotals,
+    backgroundColor: 'transparent',
+    stack: 'can',
+    type: 'bar',
+    datalabels: {
+      display: true,
+      anchor: 'end', align: 'end', offset: 2, clamp: true,
+      font: { size: 9, weight: 'bold' },
+      color: '#333',
+      formatter: v => v > 0 ? v.toLocaleString('es-CO') : ''
+    }
+  });
   charts['bc-chart-can-' + key] = new Chart(
     document.getElementById('bc-chart-can-' + key), {
       type: 'bar',
       data: { labels: canLabelsAll, datasets: canDatasets },
       options: {
         ...bcChartOpts('Cancelados'),
+        layout: { padding: { top: 24, right: 10 } },
         plugins: {
-          legend: { display: true, position: 'bottom', labels: { font: { size: 10 }, boxWidth: 10, padding: 10 } },
-          tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('es-CO')}` } },
-          datalabels: false
+          legend: {
+            display: true, position: 'bottom',
+            labels: { font: { size: 10 }, boxWidth: 10, padding: 10,
+              filter: item => item.text !== '_totals'
+            }
+          },
+          tooltip: { callbacks: { label: ctx => ctx.dataset.label === '_totals' ? '' : ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('es-CO')}` } },
         },
         scales: {
           x: { stacked: true, grid: { display: false }, ticks: { font: { size: 9 }, color: '#999', maxRotation: 0 } },
@@ -693,8 +717,9 @@ function renderPanel(key) {
   );
 
   // Gráfico INADIMPLENTES — línea roja con cifras sobre cada punto
-  const inaLabels = bc.inadimplentes_hist.map(p => p.label);
-  const inaVals   = bc.inadimplentes_hist.map(p => p.value);
+  const MONTH_ORD2 = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const inaLabels = [...bc.inadimplentes_hist].sort((a,b) => MONTH_ORD2.indexOf(a.label) - MONTH_ORD2.indexOf(b.label)).map(p => p.label);
+  const inaVals   = inaLabels.map(l => bc.inadimplentes_hist.find(p => p.label === l)?.value || 0);
   charts['bc-chart-ina-' + key] = new Chart(
     document.getElementById('bc-chart-ina-' + key), {
       type: 'line',
