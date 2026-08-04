@@ -591,7 +591,6 @@ function renderPanel(key) {
         <canvas id="chart-${key}"></canvas>
       </div>
       <div class="chart-insight">
-        <div class="chart-insight-label">Insight</div>
         <div class="chart-insight-text" id="insight-ventas-${key}"></div>
       </div>
     </div>
@@ -1116,8 +1115,8 @@ function renderPanel(key) {
         datasets: [{
           label: 'No Confirmados',
           data: nocVals,
-          backgroundColor: nocVals.map((v, i) => i === nocVals.length - 1 ? 'rgba(239,68,68,0.9)' : 'rgba(239,68,68,0.35)'),
-          borderColor: nocVals.map((v, i) => i === nocVals.length - 1 ? '#EF4444' : 'rgba(239,68,68,0.5)'),
+          backgroundColor: nocVals.map((v, i) => i === nocVals.length - 1 ? '#6B7280' : '#D1D5DB'),
+          borderColor: nocVals.map((v, i) => i === nocVals.length - 1 ? '#4B5563' : '#9CA3AF'),
           borderWidth: 1,
           borderRadius: 4,
           datalabels: {
