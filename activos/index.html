@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="activos-build" content="20260929092835">
+<meta name="activos-build" content="20260929101055">
 <title>Dashboard Gerencial · Activos</title>
 <style>
   * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
@@ -16,7 +16,7 @@
   .card { background: #fff; border-radius: 8px; padding: 16px; flex: 1; min-width: 140px; box-shadow: 0 1px 3px rgba(0,0,0,.1); border-left: 4px solid #ddd; }
   .card.critico { border-color: #d32f2f; }
   .card.alerta { border-color: #f57c00; }
-  .card.rampa { border-color: #1976d2; }
+  .card.rampup { border-color: #1976d2; }
   .card.ok { border-color: #388e3c; }
   .card-valor { font-size: 26px; font-weight: 800; }
   .card-label { color: #5f6368; font-size: 12px; margin-top: 4px; font-weight: 600; text-transform: uppercase; }
@@ -44,7 +44,7 @@
   .critico { background: #ffebee; color: #c62828; }
   .alerta { background: #fff3e0; color: #ef6c00; }
   .tendencia { background: #fffde7; color: #f57f17; }
-  .rampa { background: #e3f2fd; color: #1565c0; }
+  .rampup { background: #e3f2fd; color: #1565c0; }
   .ok { background: #e8f5e9; color: #2e7d32; }
   .neutral { background: #f5f5f5; color: #9e9e9e; }
   
@@ -61,10 +61,10 @@
 
   <main>
     <div class="cards">
-      <div class="card critico"><div class="card-valor" id="kpi-critico" style="color:#d32f2f;">16</div><div class="card-label">Críticas (< 2100)</div></div>
-      <div class="card alerta"><div class="card-valor" id="kpi-alerta" style="color:#f57c00;">22</div><div class="card-label">En Alerta (< 2500)</div></div>
+      <div class="card critico"><div class="card-valor" id="kpi-critico" style="color:#d32f2f;">41</div><div class="card-label">Críticas (< 2100)</div></div>
+      <div class="card alerta"><div class="card-valor" id="kpi-alerta" style="color:#f57c00;">53</div><div class="card-label">En Alerta (< 2500)</div></div>
       <div class="card"><div class="card-valor" id="kpi-tendencia" style="color:#f57f17;">93</div><div class="card-label">Caída (2 meses)</div></div>
-      <div class="card rampa"><div class="card-valor" id="kpi-rampa" style="color:#1976d2;">59</div><div class="card-label">En Rampa / Nuevas</div></div>
+      <div class="card rampup"><div class="card-valor" id="kpi-rampup" style="color:#1976d2;">3</div><div class="card-label">Nuevas / Ramp-Up</div></div>
       <div class="card ok"><div class="card-valor" id="kpi-ok" style="color:#388e3c;">189</div><div class="card-label">Saludables</div></div>
     </div>
 
@@ -80,7 +80,7 @@
           <button class="btn filtro-est activo" onclick="filtrar('estado', 'TODOS', this)">Todos</button>
           <button class="btn filtro-est" onclick="filtrar('estado', 'PROBLEMAS', this)">⚠️ Solo Riesgos</button>
           <button class="btn filtro-est" onclick="filtrar('estado', 'CRITICO', this)">🔴 Críticos</button>
-          <button class="btn filtro-est" onclick="filtrar('estado', 'EN_RAMPA', this)">🔵 Nuevas / Rampa</button>
+          <button class="btn filtro-est" onclick="filtrar('estado', 'RAMP_UP', this)">🔵 Nuevas / Ramp-Up</button>
         </div>
       </div>
       <button class="btn btn-excel" onclick="descargarCSV()">📥 Exportar CSV</button>
@@ -96,6 +96,16 @@
       </thead>
       <tbody>
         
+        <tr data-pais="Costa Rica" data-riesgo="CRITICO">
+            <td class='txt'>🇨🇷 Costa Rica</td>
+            <td class='txt sede'>Estadio</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>519</td>
+            <td>906</td>
+            <td class="resaltado">1.227</td>
+            <td><span class="pct-pos">+35.4%</span></td>
+            <td><span class="pct-pos">+136.4%</span></td>
+        </tr>
         <tr data-pais="Colômbia" data-riesgo="CRITICO">
             <td class='txt'>🇨🇴 Colômbia</td>
             <td class='txt sede'>Caña Dulce</td>
@@ -105,6 +115,16 @@
             <td class="resaltado">1.313</td>
             <td><span class="pct-neg">-1.2%</span></td>
             <td><span class="pct-pos">+0.8%</span></td>
+        </tr>
+        <tr data-pais="Panama" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇦 Panama</td>
+            <td class='txt sede'>La Siesta</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.399</td>
+            <td>1.405</td>
+            <td class="resaltado">1.425</td>
+            <td><span class="pct-pos">+1.4%</span></td>
+            <td><span class="pct-pos">+1.9%</span></td>
         </tr>
         <tr data-pais="Peru" data-riesgo="CRITICO">
             <td class='txt'>🇵🇪 Peru</td>
@@ -118,6 +138,16 @@
         </tr>
         <tr data-pais="Peru" data-riesgo="CRITICO">
             <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Real Plaza Pucallpa</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.412</td>
+            <td>1.461</td>
+            <td class="resaltado">1.471</td>
+            <td><span class="pct-pos">+0.7%</span></td>
+            <td><span class="pct-pos">+4.2%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇪 Peru</td>
             <td class='txt sede'>Open Plaza Pucallpa</td>
             <td><span class="badge critico">🔴 Crítico</span></td>
             <td>1.440</td>
@@ -125,6 +155,86 @@
             <td class="resaltado">1.512</td>
             <td><span class="pct-neg">-0.2%</span></td>
             <td><span class="pct-pos">+5.0%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Real Plaza Cajamarca</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.484</td>
+            <td>1.507</td>
+            <td class="resaltado">1.551</td>
+            <td><span class="pct-pos">+2.9%</span></td>
+            <td><span class="pct-pos">+4.5%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="CRITICO">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>San Sur</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.032</td>
+            <td>1.467</td>
+            <td class="resaltado">1.557</td>
+            <td><span class="pct-pos">+6.1%</span></td>
+            <td><span class="pct-pos">+50.9%</span></td>
+        </tr>
+        <tr data-pais="Costa Rica" data-riesgo="CRITICO">
+            <td class='txt'>🇨🇷 Costa Rica</td>
+            <td class='txt sede'>Santa Ana Trade Center</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>804</td>
+            <td>1.265</td>
+            <td class="resaltado">1.568</td>
+            <td><span class="pct-pos">+24.0%</span></td>
+            <td><span class="pct-pos">+95.0%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Centro - Arequipa</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.593</td>
+            <td>1.603</td>
+            <td class="resaltado">1.618</td>
+            <td><span class="pct-pos">+0.9%</span></td>
+            <td><span class="pct-pos">+1.6%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Plaza del Sol Huacho </td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.608</td>
+            <td>1.611</td>
+            <td class="resaltado">1.664</td>
+            <td><span class="pct-pos">+3.3%</span></td>
+            <td><span class="pct-pos">+3.5%</span></td>
+        </tr>
+        <tr data-pais="Panama" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇦 Panama</td>
+            <td class='txt sede'>Chiriquí</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.689</td>
+            <td>1.736</td>
+            <td class="resaltado">1.756</td>
+            <td><span class="pct-pos">+1.2%</span></td>
+            <td><span class="pct-pos">+4.0%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="CRITICO">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Cartagena Express</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.767</td>
+            <td>1.794</td>
+            <td class="resaltado">1.813</td>
+            <td><span class="pct-pos">+1.1%</span></td>
+            <td><span class="pct-pos">+2.6%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Mall Aventura Iquitos</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.831</td>
+            <td>1.822</td>
+            <td class="resaltado">1.832</td>
+            <td><span class="pct-pos">+0.5%</span></td>
+            <td><span class="pct-pos">+0.1%</span></td>
         </tr>
         <tr data-pais="Panama" data-riesgo="CRITICO">
             <td class='txt'>🇵🇦 Panama</td>
@@ -146,6 +256,26 @@
             <td><span class="pct-neg">-1.7%</span></td>
             <td><span class="pct-neg">-4.1%</span></td>
         </tr>
+        <tr data-pais="Panama" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇦 Panama</td>
+            <td class='txt sede'>San Francisco</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.838</td>
+            <td>1.842</td>
+            <td class="resaltado">1.907</td>
+            <td><span class="pct-pos">+3.5%</span></td>
+            <td><span class="pct-pos">+3.8%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="CRITICO">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Restrepo</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.836</td>
+            <td>1.895</td>
+            <td class="resaltado">1.918</td>
+            <td><span class="pct-pos">+1.2%</span></td>
+            <td><span class="pct-pos">+4.5%</span></td>
+        </tr>
         <tr data-pais="Costa Rica" data-riesgo="CRITICO">
             <td class='txt'>🇨🇷 Costa Rica</td>
             <td class='txt sede'>El Encuentro Alajuelita</td>
@@ -155,6 +285,26 @@
             <td class="resaltado">1.933</td>
             <td><span class="pct-neg">-2.2%</span></td>
             <td><span class="pct-neg">-4.0%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>MegaPlaza Cajamarca</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.862</td>
+            <td>1.859</td>
+            <td class="resaltado">1.936</td>
+            <td><span class="pct-pos">+4.1%</span></td>
+            <td><span class="pct-pos">+4.0%</span></td>
+        </tr>
+        <tr data-pais="Panama" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇦 Panama</td>
+            <td class='txt sede'>Atrio Costa del Este</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.886</td>
+            <td>1.918</td>
+            <td class="resaltado">1.949</td>
+            <td><span class="pct-pos">+1.6%</span></td>
+            <td><span class="pct-pos">+3.3%</span></td>
         </tr>
         <tr data-pais="Colômbia" data-riesgo="CRITICO">
             <td class='txt'>🇨🇴 Colômbia</td>
@@ -178,6 +328,36 @@
         </tr>
         <tr data-pais="Colômbia" data-riesgo="CRITICO">
             <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Ocaña</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.938</td>
+            <td>1.954</td>
+            <td class="resaltado">1.965</td>
+            <td><span class="pct-pos">+0.6%</span></td>
+            <td><span class="pct-pos">+1.4%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Mall Aventura Porongoche</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.902</td>
+            <td>1.881</td>
+            <td class="resaltado">1.969</td>
+            <td><span class="pct-pos">+4.7%</span></td>
+            <td><span class="pct-pos">+3.5%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Los Incas - Chiclayo</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.939</td>
+            <td>1.945</td>
+            <td class="resaltado">1.970</td>
+            <td><span class="pct-pos">+1.3%</span></td>
+            <td><span class="pct-pos">+1.6%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="CRITICO">
+            <td class='txt'>🇨🇴 Colômbia</td>
             <td class='txt sede'>Envigado Barrio Obrero</td>
             <td><span class="badge critico">🔴 Crítico</span></td>
             <td>1.986</td>
@@ -185,6 +365,16 @@
             <td class="resaltado">1.971</td>
             <td><span class="pct-neg">-1.0%</span></td>
             <td><span class="pct-neg">-0.8%</span></td>
+        </tr>
+        <tr data-pais="Panama" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇦 Panama</td>
+            <td class='txt sede'>Greenwood</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>1.911</td>
+            <td>1.932</td>
+            <td class="resaltado">1.972</td>
+            <td><span class="pct-pos">+2.1%</span></td>
+            <td><span class="pct-pos">+3.2%</span></td>
         </tr>
         <tr data-pais="Peru" data-riesgo="CRITICO">
             <td class='txt'>🇵🇪 Peru</td>
@@ -195,6 +385,16 @@
             <td class="resaltado">1.977</td>
             <td><span class="pct-neg">-1.4%</span></td>
             <td><span class="pct-neg">-2.7%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="CRITICO">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Ecotek</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>2.010</td>
+            <td>2.013</td>
+            <td class="resaltado">2.022</td>
+            <td><span class="pct-pos">+0.4%</span></td>
+            <td><span class="pct-pos">+0.6%</span></td>
         </tr>
         <tr data-pais="Peru" data-riesgo="CRITICO">
             <td class='txt'>🇵🇪 Peru</td>
@@ -246,6 +446,26 @@
             <td><span class="pct-neg">-0.3%</span></td>
             <td><span class="pct-pos">+2.7%</span></td>
         </tr>
+        <tr data-pais="Colômbia" data-riesgo="CRITICO">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>El Rodadero</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>2.059</td>
+            <td>2.057</td>
+            <td class="resaltado">2.069</td>
+            <td><span class="pct-pos">+0.6%</span></td>
+            <td><span class="pct-pos">+0.5%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="CRITICO">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Metro Atalayas</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>2.061</td>
+            <td>2.059</td>
+            <td class="resaltado">2.070</td>
+            <td><span class="pct-pos">+0.5%</span></td>
+            <td><span class="pct-pos">+0.4%</span></td>
+        </tr>
         <tr data-pais="Costa Rica" data-riesgo="CRITICO">
             <td class='txt'>🇨🇷 Costa Rica</td>
             <td class='txt sede'>City Mall</td>
@@ -256,6 +476,36 @@
             <td><span class="pct-neg">-1.1%</span></td>
             <td><span class="pct-pos">+0.6%</span></td>
         </tr>
+        <tr data-pais="Panama" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇦 Panama</td>
+            <td class='txt sede'>Chanis</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>2.051</td>
+            <td>2.024</td>
+            <td class="resaltado">2.073</td>
+            <td><span class="pct-pos">+2.4%</span></td>
+            <td><span class="pct-pos">+1.1%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="CRITICO">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>MegaPlaza Ica</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>2.074</td>
+            <td>1.985</td>
+            <td class="resaltado">2.073</td>
+            <td><span class="pct-pos">+4.4%</span></td>
+            <td><span class="pct-neg">-0.0%</span></td>
+        </tr>
+        <tr data-pais="Costa Rica" data-riesgo="CRITICO">
+            <td class='txt'>🇨🇷 Costa Rica</td>
+            <td class='txt sede'>Zona Centro</td>
+            <td><span class="badge critico">🔴 Crítico</span></td>
+            <td>2.124</td>
+            <td>2.093</td>
+            <td class="resaltado">2.094</td>
+            <td><span class="pct-pos">+0.0%</span></td>
+            <td><span class="pct-neg">-1.4%</span></td>
+        </tr>
         <tr data-pais="Peru" data-riesgo="ALERTA">
             <td class='txt'>🇵🇪 Peru</td>
             <td class='txt sede'>Outlet Arauco AQP</td>
@@ -265,6 +515,66 @@
             <td class="resaltado">2.109</td>
             <td><span class="pct-neg">-6.1%</span></td>
             <td><span class="pct-neg">-7.3%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="ALERTA">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Real Plaza Huancayo</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.069</td>
+            <td>2.087</td>
+            <td class="resaltado">2.122</td>
+            <td><span class="pct-pos">+1.7%</span></td>
+            <td><span class="pct-pos">+2.6%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Centro Suba</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>1.917</td>
+            <td>1.975</td>
+            <td class="resaltado">2.126</td>
+            <td><span class="pct-pos">+7.6%</span></td>
+            <td><span class="pct-pos">+10.9%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Gran Plaza Ipiales</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.109</td>
+            <td>2.121</td>
+            <td class="resaltado">2.131</td>
+            <td><span class="pct-pos">+0.5%</span></td>
+            <td><span class="pct-pos">+1.0%</span></td>
+        </tr>
+        <tr data-pais="Costa Rica" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇷 Costa Rica</td>
+            <td class='txt sede'>Plaza Heredia</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.100</td>
+            <td>2.131</td>
+            <td class="resaltado">2.137</td>
+            <td><span class="pct-pos">+0.3%</span></td>
+            <td><span class="pct-pos">+1.8%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="ALERTA">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>La Fontana</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.170</td>
+            <td>2.138</td>
+            <td class="resaltado">2.144</td>
+            <td><span class="pct-pos">+0.3%</span></td>
+            <td><span class="pct-neg">-1.2%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="ALERTA">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Ovalo Varela</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.117</td>
+            <td>2.130</td>
+            <td class="resaltado">2.152</td>
+            <td><span class="pct-pos">+1.0%</span></td>
+            <td><span class="pct-pos">+1.7%</span></td>
         </tr>
         <tr data-pais="Colômbia" data-riesgo="ALERTA">
             <td class='txt'>🇨🇴 Colômbia</td>
@@ -298,6 +608,36 @@
         </tr>
         <tr data-pais="Colômbia" data-riesgo="ALERTA">
             <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Rafael Uribe</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>1.636</td>
+            <td>2.003</td>
+            <td class="resaltado">2.179</td>
+            <td><span class="pct-pos">+8.8%</span></td>
+            <td><span class="pct-pos">+33.2%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Plaza Malambo</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.095</td>
+            <td>2.157</td>
+            <td class="resaltado">2.194</td>
+            <td><span class="pct-pos">+1.7%</span></td>
+            <td><span class="pct-pos">+4.7%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Primavera Cali</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.161</td>
+            <td>2.172</td>
+            <td class="resaltado">2.196</td>
+            <td><span class="pct-pos">+1.1%</span></td>
+            <td><span class="pct-pos">+1.6%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
             <td class='txt sede'>Metro Sogamoso</td>
             <td><span class="badge alerta">🟠 Alerta</span></td>
             <td>2.294</td>
@@ -325,6 +665,56 @@
             <td class="resaltado">2.234</td>
             <td><span class="pct-neg">-0.1%</span></td>
             <td><span class="pct-neg">-1.8%</span></td>
+        </tr>
+        <tr data-pais="Panama" data-riesgo="ALERTA">
+            <td class='txt'>🇵🇦 Panama</td>
+            <td class='txt sede'>Westland</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.217</td>
+            <td>2.217</td>
+            <td class="resaltado">2.239</td>
+            <td><span class="pct-pos">+1.0%</span></td>
+            <td><span class="pct-pos">+1.0%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="ALERTA">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Mall Plaza Huancayo</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.222</td>
+            <td>2.216</td>
+            <td class="resaltado">2.252</td>
+            <td><span class="pct-pos">+1.6%</span></td>
+            <td><span class="pct-pos">+1.4%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Metro Palmira</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.229</td>
+            <td>2.269</td>
+            <td class="resaltado">2.275</td>
+            <td><span class="pct-pos">+0.3%</span></td>
+            <td><span class="pct-pos">+2.1%</span></td>
+        </tr>
+        <tr data-pais="Costa Rica" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇷 Costa Rica</td>
+            <td class='txt sede'>Multiplaza Escazú</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.316</td>
+            <td>2.283</td>
+            <td class="resaltado">2.285</td>
+            <td><span class="pct-pos">+0.1%</span></td>
+            <td><span class="pct-neg">-1.3%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="ALERTA">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Pizarro - Trujillo</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.161</td>
+            <td>2.249</td>
+            <td class="resaltado">2.287</td>
+            <td><span class="pct-pos">+1.7%</span></td>
+            <td><span class="pct-pos">+5.8%</span></td>
         </tr>
         <tr data-pais="Colômbia" data-riesgo="ALERTA">
             <td class='txt'>🇨🇴 Colômbia</td>
@@ -356,6 +746,26 @@
             <td><span class="pct-neg">-2.3%</span></td>
             <td><span class="pct-neg">-8.2%</span></td>
         </tr>
+        <tr data-pais="Costa Rica" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇷 Costa Rica</td>
+            <td class='txt sede'>La Ribera</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.314</td>
+            <td>2.303</td>
+            <td class="resaltado">2.312</td>
+            <td><span class="pct-pos">+0.4%</span></td>
+            <td><span class="pct-neg">-0.1%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Outlet Factory</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.293</td>
+            <td>2.310</td>
+            <td class="resaltado">2.324</td>
+            <td><span class="pct-pos">+0.6%</span></td>
+            <td><span class="pct-pos">+1.4%</span></td>
+        </tr>
         <tr data-pais="Colômbia" data-riesgo="ALERTA">
             <td class='txt'>🇨🇴 Colômbia</td>
             <td class='txt sede'>Éxito San Fernando</td>
@@ -375,6 +785,16 @@
             <td class="resaltado">2.344</td>
             <td><span class="pct-neg">-7.2%</span></td>
             <td><span class="pct-neg">-7.5%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Viva La Ceja</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.211</td>
+            <td>2.295</td>
+            <td class="resaltado">2.345</td>
+            <td><span class="pct-pos">+2.2%</span></td>
+            <td><span class="pct-pos">+6.1%</span></td>
         </tr>
         <tr data-pais="Colômbia" data-riesgo="ALERTA">
             <td class='txt'>🇨🇴 Colômbia</td>
@@ -418,6 +838,16 @@
         </tr>
         <tr data-pais="Colômbia" data-riesgo="ALERTA">
             <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Alcibia</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.085</td>
+            <td>2.301</td>
+            <td class="resaltado">2.363</td>
+            <td><span class="pct-pos">+2.7%</span></td>
+            <td><span class="pct-pos">+13.3%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
             <td class='txt sede'>Metro la 70</td>
             <td><span class="badge alerta">🟠 Alerta</span></td>
             <td>2.428</td>
@@ -425,6 +855,36 @@
             <td class="resaltado">2.363</td>
             <td><span class="pct-neg">-2.4%</span></td>
             <td><span class="pct-neg">-2.7%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Home Sentry</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.341</td>
+            <td>2.355</td>
+            <td class="resaltado">2.372</td>
+            <td><span class="pct-pos">+0.7%</span></td>
+            <td><span class="pct-pos">+1.3%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="ALERTA">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Camacho</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.361</td>
+            <td>2.362</td>
+            <td class="resaltado">2.380</td>
+            <td><span class="pct-pos">+0.8%</span></td>
+            <td><span class="pct-pos">+0.8%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="ALERTA">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Saenz Peña</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.340</td>
+            <td>2.320</td>
+            <td class="resaltado">2.386</td>
+            <td><span class="pct-pos">+2.8%</span></td>
+            <td><span class="pct-pos">+2.0%</span></td>
         </tr>
         <tr data-pais="Peru" data-riesgo="ALERTA">
             <td class='txt'>🇵🇪 Peru</td>
@@ -448,6 +908,36 @@
         </tr>
         <tr data-pais="Colômbia" data-riesgo="ALERTA">
             <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Girón</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.241</td>
+            <td>2.305</td>
+            <td class="resaltado">2.398</td>
+            <td><span class="pct-pos">+4.0%</span></td>
+            <td><span class="pct-pos">+7.0%</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="ALERTA">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Qhatu Plaza Santa Clara</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.416</td>
+            <td>2.401</td>
+            <td class="resaltado">2.410</td>
+            <td><span class="pct-pos">+0.4%</span></td>
+            <td><span class="pct-neg">-0.2%</span></td>
+        </tr>
+        <tr data-pais="Costa Rica" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇷 Costa Rica</td>
+            <td class='txt sede'>C3 Cariari</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.380</td>
+            <td>2.388</td>
+            <td class="resaltado">2.412</td>
+            <td><span class="pct-pos">+1.0%</span></td>
+            <td><span class="pct-pos">+1.3%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
             <td class='txt sede'>Cosmocentro</td>
             <td><span class="badge alerta">🟠 Alerta</span></td>
             <td>2.569</td>
@@ -458,6 +948,46 @@
         </tr>
         <tr data-pais="Colômbia" data-riesgo="ALERTA">
             <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Jumbo Autopista Sur</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.391</td>
+            <td>2.421</td>
+            <td class="resaltado">2.427</td>
+            <td><span class="pct-pos">+0.2%</span></td>
+            <td><span class="pct-pos">+1.5%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>La Macarena</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>1.870</td>
+            <td>2.272</td>
+            <td class="resaltado">2.431</td>
+            <td><span class="pct-pos">+7.0%</span></td>
+            <td><span class="pct-pos">+30.0%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Fundadores</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.446</td>
+            <td>2.405</td>
+            <td class="resaltado">2.443</td>
+            <td><span class="pct-pos">+1.6%</span></td>
+            <td><span class="pct-neg">-0.1%</span></td>
+        </tr>
+        <tr data-pais="Panama" data-riesgo="ALERTA">
+            <td class='txt'>🇵🇦 Panama</td>
+            <td class='txt sede'>City Plaza Crisol</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.355</td>
+            <td>2.440</td>
+            <td class="resaltado">2.449</td>
+            <td><span class="pct-pos">+0.4%</span></td>
+            <td><span class="pct-pos">+4.0%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
             <td class='txt sede'>Zipaquirá</td>
             <td><span class="badge alerta">🟠 Alerta</span></td>
             <td>2.465</td>
@@ -465,6 +995,36 @@
             <td class="resaltado">2.450</td>
             <td><span class="pct-neg">-1.1%</span></td>
             <td><span class="pct-neg">-0.6%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Avenida Chile</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.412</td>
+            <td>2.421</td>
+            <td class="resaltado">2.452</td>
+            <td><span class="pct-pos">+1.3%</span></td>
+            <td><span class="pct-pos">+1.7%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Metro Pitalito</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.473</td>
+            <td>2.454</td>
+            <td class="resaltado">2.459</td>
+            <td><span class="pct-pos">+0.2%</span></td>
+            <td><span class="pct-neg">-0.6%</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="ALERTA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Nuestro Montería</td>
+            <td><span class="badge alerta">🟠 Alerta</span></td>
+            <td>2.378</td>
+            <td>2.425</td>
+            <td class="resaltado">2.481</td>
+            <td><span class="pct-pos">+2.3%</span></td>
+            <td><span class="pct-pos">+4.3%</span></td>
         </tr>
         <tr data-pais="Colômbia" data-riesgo="ALERTA">
             <td class='txt'>🇨🇴 Colômbia</td>
@@ -3296,595 +3856,35 @@
             <td><span class="pct-neg">-0.1%</span></td>
             <td><span class="pct-pos">+0.0%</span></td>
         </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
+        <tr data-pais="Colômbia" data-riesgo="RAMP_UP">
             <td class='txt'>🇨🇴 Colômbia</td>
             <td class='txt sede'>Los Patios</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
+            <td><span class="badge rampup">🔵 Ramp-Up</span></td>
             <td><span class="txt-vacio">— (NUEVA)</span></td>
             <td><span class="txt-vacio">— (NUEVA)</span></td>
             <td class="resaltado">1.133</td>
             <td><span class="neutral">N/A</span></td>
             <td><span class="neutral">N/A</span></td>
         </tr>
-        <tr data-pais="Costa Rica" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇷 Costa Rica</td>
-            <td class='txt sede'>Estadio</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>519</td>
-            <td>906</td>
-            <td class="resaltado">1.227</td>
-            <td><span class="pct-pos">+35.4%</span></td>
-            <td><span class="pct-pos">+136.4%</span></td>
-        </tr>
-        <tr data-pais="Panama" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇦 Panama</td>
-            <td class='txt sede'>La Siesta</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.399</td>
-            <td>1.405</td>
-            <td class="resaltado">1.425</td>
-            <td><span class="pct-pos">+1.4%</span></td>
-            <td><span class="pct-pos">+1.9%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Real Plaza Pucallpa</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.412</td>
-            <td>1.461</td>
-            <td class="resaltado">1.471</td>
-            <td><span class="pct-pos">+0.7%</span></td>
-            <td><span class="pct-pos">+4.2%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
+        <tr data-pais="Peru" data-riesgo="RAMP_UP">
             <td class='txt'>🇵🇪 Peru</td>
             <td class='txt sede'>Las Lomas del Rímac</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
+            <td><span class="badge rampup">🔵 Ramp-Up</span></td>
             <td><span class="txt-vacio">— (NUEVA)</span></td>
             <td>949</td>
             <td class="resaltado">1.478</td>
             <td><span class="pct-pos">+55.7%</span></td>
             <td><span class="neutral">N/A</span></td>
         </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Real Plaza Cajamarca</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.484</td>
-            <td>1.507</td>
-            <td class="resaltado">1.551</td>
-            <td><span class="pct-pos">+2.9%</span></td>
-            <td><span class="pct-pos">+4.5%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>San Sur</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.032</td>
-            <td>1.467</td>
-            <td class="resaltado">1.557</td>
-            <td><span class="pct-pos">+6.1%</span></td>
-            <td><span class="pct-pos">+50.9%</span></td>
-        </tr>
-        <tr data-pais="Costa Rica" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇷 Costa Rica</td>
-            <td class='txt sede'>Santa Ana Trade Center</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>804</td>
-            <td>1.265</td>
-            <td class="resaltado">1.568</td>
-            <td><span class="pct-pos">+24.0%</span></td>
-            <td><span class="pct-pos">+95.0%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Centro - Arequipa</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.593</td>
-            <td>1.603</td>
-            <td class="resaltado">1.618</td>
-            <td><span class="pct-pos">+0.9%</span></td>
-            <td><span class="pct-pos">+1.6%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Plaza del Sol Huacho </td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.608</td>
-            <td>1.611</td>
-            <td class="resaltado">1.664</td>
-            <td><span class="pct-pos">+3.3%</span></td>
-            <td><span class="pct-pos">+3.5%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
+        <tr data-pais="Colômbia" data-riesgo="RAMP_UP">
             <td class='txt'>🇨🇴 Colômbia</td>
             <td class='txt sede'>Bosa La Libertad</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
+            <td><span class="badge rampup">🔵 Ramp-Up</span></td>
             <td><span class="txt-vacio">— (NUEVA)</span></td>
             <td><span class="txt-vacio">— (NUEVA)</span></td>
             <td class="resaltado">1.747</td>
             <td><span class="neutral">N/A</span></td>
             <td><span class="neutral">N/A</span></td>
-        </tr>
-        <tr data-pais="Panama" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇦 Panama</td>
-            <td class='txt sede'>Chiriquí</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.689</td>
-            <td>1.736</td>
-            <td class="resaltado">1.756</td>
-            <td><span class="pct-pos">+1.2%</span></td>
-            <td><span class="pct-pos">+4.0%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Cartagena Express</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.767</td>
-            <td>1.794</td>
-            <td class="resaltado">1.813</td>
-            <td><span class="pct-pos">+1.1%</span></td>
-            <td><span class="pct-pos">+2.6%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Mall Aventura Iquitos</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.831</td>
-            <td>1.822</td>
-            <td class="resaltado">1.832</td>
-            <td><span class="pct-pos">+0.5%</span></td>
-            <td><span class="pct-pos">+0.1%</span></td>
-        </tr>
-        <tr data-pais="Panama" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇦 Panama</td>
-            <td class='txt sede'>San Francisco</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.838</td>
-            <td>1.842</td>
-            <td class="resaltado">1.907</td>
-            <td><span class="pct-pos">+3.5%</span></td>
-            <td><span class="pct-pos">+3.8%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Restrepo</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.836</td>
-            <td>1.895</td>
-            <td class="resaltado">1.918</td>
-            <td><span class="pct-pos">+1.2%</span></td>
-            <td><span class="pct-pos">+4.5%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>MegaPlaza Cajamarca</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.862</td>
-            <td>1.859</td>
-            <td class="resaltado">1.936</td>
-            <td><span class="pct-pos">+4.1%</span></td>
-            <td><span class="pct-pos">+4.0%</span></td>
-        </tr>
-        <tr data-pais="Panama" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇦 Panama</td>
-            <td class='txt sede'>Atrio Costa del Este</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.886</td>
-            <td>1.918</td>
-            <td class="resaltado">1.949</td>
-            <td><span class="pct-pos">+1.6%</span></td>
-            <td><span class="pct-pos">+3.3%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Ocaña</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.938</td>
-            <td>1.954</td>
-            <td class="resaltado">1.965</td>
-            <td><span class="pct-pos">+0.6%</span></td>
-            <td><span class="pct-pos">+1.4%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Mall Aventura Porongoche</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.902</td>
-            <td>1.881</td>
-            <td class="resaltado">1.969</td>
-            <td><span class="pct-pos">+4.7%</span></td>
-            <td><span class="pct-pos">+3.5%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Los Incas - Chiclayo</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.939</td>
-            <td>1.945</td>
-            <td class="resaltado">1.970</td>
-            <td><span class="pct-pos">+1.3%</span></td>
-            <td><span class="pct-pos">+1.6%</span></td>
-        </tr>
-        <tr data-pais="Panama" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇦 Panama</td>
-            <td class='txt sede'>Greenwood</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.911</td>
-            <td>1.932</td>
-            <td class="resaltado">1.972</td>
-            <td><span class="pct-pos">+2.1%</span></td>
-            <td><span class="pct-pos">+3.2%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Ecotek</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.010</td>
-            <td>2.013</td>
-            <td class="resaltado">2.022</td>
-            <td><span class="pct-pos">+0.4%</span></td>
-            <td><span class="pct-pos">+0.6%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>El Rodadero</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.059</td>
-            <td>2.057</td>
-            <td class="resaltado">2.069</td>
-            <td><span class="pct-pos">+0.6%</span></td>
-            <td><span class="pct-pos">+0.5%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Metro Atalayas</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.061</td>
-            <td>2.059</td>
-            <td class="resaltado">2.070</td>
-            <td><span class="pct-pos">+0.5%</span></td>
-            <td><span class="pct-pos">+0.4%</span></td>
-        </tr>
-        <tr data-pais="Panama" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇦 Panama</td>
-            <td class='txt sede'>Chanis</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.051</td>
-            <td>2.024</td>
-            <td class="resaltado">2.073</td>
-            <td><span class="pct-pos">+2.4%</span></td>
-            <td><span class="pct-pos">+1.1%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>MegaPlaza Ica</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.074</td>
-            <td>1.985</td>
-            <td class="resaltado">2.073</td>
-            <td><span class="pct-pos">+4.4%</span></td>
-            <td><span class="pct-neg">-0.0%</span></td>
-        </tr>
-        <tr data-pais="Costa Rica" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇷 Costa Rica</td>
-            <td class='txt sede'>Zona Centro</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.124</td>
-            <td>2.093</td>
-            <td class="resaltado">2.094</td>
-            <td><span class="pct-pos">+0.0%</span></td>
-            <td><span class="pct-neg">-1.4%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Real Plaza Huancayo</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.069</td>
-            <td>2.087</td>
-            <td class="resaltado">2.122</td>
-            <td><span class="pct-pos">+1.7%</span></td>
-            <td><span class="pct-pos">+2.6%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Centro Suba</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.917</td>
-            <td>1.975</td>
-            <td class="resaltado">2.126</td>
-            <td><span class="pct-pos">+7.6%</span></td>
-            <td><span class="pct-pos">+10.9%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Gran Plaza Ipiales</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.109</td>
-            <td>2.121</td>
-            <td class="resaltado">2.131</td>
-            <td><span class="pct-pos">+0.5%</span></td>
-            <td><span class="pct-pos">+1.0%</span></td>
-        </tr>
-        <tr data-pais="Costa Rica" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇷 Costa Rica</td>
-            <td class='txt sede'>Plaza Heredia</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.100</td>
-            <td>2.131</td>
-            <td class="resaltado">2.137</td>
-            <td><span class="pct-pos">+0.3%</span></td>
-            <td><span class="pct-pos">+1.8%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>La Fontana</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.170</td>
-            <td>2.138</td>
-            <td class="resaltado">2.144</td>
-            <td><span class="pct-pos">+0.3%</span></td>
-            <td><span class="pct-neg">-1.2%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Ovalo Varela</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.117</td>
-            <td>2.130</td>
-            <td class="resaltado">2.152</td>
-            <td><span class="pct-pos">+1.0%</span></td>
-            <td><span class="pct-pos">+1.7%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Rafael Uribe</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.636</td>
-            <td>2.003</td>
-            <td class="resaltado">2.179</td>
-            <td><span class="pct-pos">+8.8%</span></td>
-            <td><span class="pct-pos">+33.2%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Plaza Malambo</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.095</td>
-            <td>2.157</td>
-            <td class="resaltado">2.194</td>
-            <td><span class="pct-pos">+1.7%</span></td>
-            <td><span class="pct-pos">+4.7%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Primavera Cali</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.161</td>
-            <td>2.172</td>
-            <td class="resaltado">2.196</td>
-            <td><span class="pct-pos">+1.1%</span></td>
-            <td><span class="pct-pos">+1.6%</span></td>
-        </tr>
-        <tr data-pais="Panama" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇦 Panama</td>
-            <td class='txt sede'>Westland</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.217</td>
-            <td>2.217</td>
-            <td class="resaltado">2.239</td>
-            <td><span class="pct-pos">+1.0%</span></td>
-            <td><span class="pct-pos">+1.0%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Mall Plaza Huancayo</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.222</td>
-            <td>2.216</td>
-            <td class="resaltado">2.252</td>
-            <td><span class="pct-pos">+1.6%</span></td>
-            <td><span class="pct-pos">+1.4%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Metro Palmira</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.229</td>
-            <td>2.269</td>
-            <td class="resaltado">2.275</td>
-            <td><span class="pct-pos">+0.3%</span></td>
-            <td><span class="pct-pos">+2.1%</span></td>
-        </tr>
-        <tr data-pais="Costa Rica" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇷 Costa Rica</td>
-            <td class='txt sede'>Multiplaza Escazú</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.316</td>
-            <td>2.283</td>
-            <td class="resaltado">2.285</td>
-            <td><span class="pct-pos">+0.1%</span></td>
-            <td><span class="pct-neg">-1.3%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Pizarro - Trujillo</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.161</td>
-            <td>2.249</td>
-            <td class="resaltado">2.287</td>
-            <td><span class="pct-pos">+1.7%</span></td>
-            <td><span class="pct-pos">+5.8%</span></td>
-        </tr>
-        <tr data-pais="Costa Rica" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇷 Costa Rica</td>
-            <td class='txt sede'>La Ribera</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.314</td>
-            <td>2.303</td>
-            <td class="resaltado">2.312</td>
-            <td><span class="pct-pos">+0.4%</span></td>
-            <td><span class="pct-neg">-0.1%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Outlet Factory</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.293</td>
-            <td>2.310</td>
-            <td class="resaltado">2.324</td>
-            <td><span class="pct-pos">+0.6%</span></td>
-            <td><span class="pct-pos">+1.4%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Viva La Ceja</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.211</td>
-            <td>2.295</td>
-            <td class="resaltado">2.345</td>
-            <td><span class="pct-pos">+2.2%</span></td>
-            <td><span class="pct-pos">+6.1%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Alcibia</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.085</td>
-            <td>2.301</td>
-            <td class="resaltado">2.363</td>
-            <td><span class="pct-pos">+2.7%</span></td>
-            <td><span class="pct-pos">+13.3%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Home Sentry</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.341</td>
-            <td>2.355</td>
-            <td class="resaltado">2.372</td>
-            <td><span class="pct-pos">+0.7%</span></td>
-            <td><span class="pct-pos">+1.3%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Camacho</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.361</td>
-            <td>2.362</td>
-            <td class="resaltado">2.380</td>
-            <td><span class="pct-pos">+0.8%</span></td>
-            <td><span class="pct-pos">+0.8%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Saenz Peña</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.340</td>
-            <td>2.320</td>
-            <td class="resaltado">2.386</td>
-            <td><span class="pct-pos">+2.8%</span></td>
-            <td><span class="pct-pos">+2.0%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Girón</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.241</td>
-            <td>2.305</td>
-            <td class="resaltado">2.398</td>
-            <td><span class="pct-pos">+4.0%</span></td>
-            <td><span class="pct-pos">+7.0%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Qhatu Plaza Santa Clara</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.416</td>
-            <td>2.401</td>
-            <td class="resaltado">2.410</td>
-            <td><span class="pct-pos">+0.4%</span></td>
-            <td><span class="pct-neg">-0.2%</span></td>
-        </tr>
-        <tr data-pais="Costa Rica" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇷 Costa Rica</td>
-            <td class='txt sede'>C3 Cariari</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.380</td>
-            <td>2.388</td>
-            <td class="resaltado">2.412</td>
-            <td><span class="pct-pos">+1.0%</span></td>
-            <td><span class="pct-pos">+1.3%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Jumbo Autopista Sur</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.391</td>
-            <td>2.421</td>
-            <td class="resaltado">2.427</td>
-            <td><span class="pct-pos">+0.2%</span></td>
-            <td><span class="pct-pos">+1.5%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>La Macarena</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>1.870</td>
-            <td>2.272</td>
-            <td class="resaltado">2.431</td>
-            <td><span class="pct-pos">+7.0%</span></td>
-            <td><span class="pct-pos">+30.0%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Fundadores</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.446</td>
-            <td>2.405</td>
-            <td class="resaltado">2.443</td>
-            <td><span class="pct-pos">+1.6%</span></td>
-            <td><span class="pct-neg">-0.1%</span></td>
-        </tr>
-        <tr data-pais="Panama" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇵🇦 Panama</td>
-            <td class='txt sede'>City Plaza Crisol</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.355</td>
-            <td>2.440</td>
-            <td class="resaltado">2.449</td>
-            <td><span class="pct-pos">+0.4%</span></td>
-            <td><span class="pct-pos">+4.0%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Avenida Chile</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.412</td>
-            <td>2.421</td>
-            <td class="resaltado">2.452</td>
-            <td><span class="pct-pos">+1.3%</span></td>
-            <td><span class="pct-pos">+1.7%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Metro Pitalito</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.473</td>
-            <td>2.454</td>
-            <td class="resaltado">2.459</td>
-            <td><span class="pct-pos">+0.2%</span></td>
-            <td><span class="pct-neg">-0.6%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Nuestro Montería</td>
-            <td><span class="badge rampa">🔵 En Rampa</span></td>
-            <td>2.378</td>
-            <td>2.425</td>
-            <td class="resaltado">2.481</td>
-            <td><span class="pct-pos">+2.3%</span></td>
-            <td><span class="pct-pos">+4.3%</span></td>
         </tr>
       </tbody>
     </table>
@@ -3904,7 +3904,7 @@
       }
       boton.classList.add('activo');
       
-      let countCriticos = 0, countAlertas = 0, countTendencias = 0, countRampa = 0, countOks = 0;
+      let countCriticos = 0, countAlertas = 0, countTendencias = 0, countRampup = 0, countOks = 0;
 
       document.querySelectorAll('#tabla-activos tbody tr').forEach(fila => {
         let pais = fila.getAttribute('data-pais');
@@ -3916,7 +3916,7 @@
         if (filtroActualEstado === 'TODOS') matchEstado = true;
         else if (filtroActualEstado === 'PROBLEMAS') matchEstado = (riesgo === 'CRITICO' || riesgo === 'ALERTA' || riesgo === 'TENDENCIA_NEGATIVA');
         else if (filtroActualEstado === 'CRITICO') matchEstado = (riesgo === 'CRITICO');
-        else if (filtroActualEstado === 'EN_RAMPA') matchEstado = (riesgo === 'EN_RAMPA');
+        else if (filtroActualEstado === 'RAMP_UP') matchEstado = (riesgo === 'RAMP_UP');
         
         let mostrar = matchPais && matchEstado;
         fila.style.display = mostrar ? '' : 'none';
@@ -3925,7 +3925,7 @@
           if (riesgo === 'CRITICO') countCriticos++;
           else if (riesgo === 'ALERTA') countAlertas++;
           else if (riesgo === 'TENDENCIA_NEGATIVA') countTendencias++;
-          else if (riesgo === 'EN_RAMPA') countRampa++;
+          else if (riesgo === 'RAMP_UP') countRampup++;
           else if (riesgo === 'OK') countOks++;
         }
       });
@@ -3933,7 +3933,7 @@
       document.getElementById('kpi-critico').innerText = countCriticos;
       document.getElementById('kpi-alerta').innerText = countAlertas;
       document.getElementById('kpi-tendencia').innerText = countTendencias;
-      document.getElementById('kpi-rampa').innerText = countRampa;
+      document.getElementById('kpi-rampup').innerText = countRampup;
       document.getElementById('kpi-ok').innerText = countOks;
     }
 
