@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="activos-build" content="20260929091643">
+<meta name="activos-build" content="20260929092217">
 <title>Dashboard Gerencial · Activos</title>
 <style>
   * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
@@ -12,23 +12,28 @@
   .subtitulo { color: #a1a1aa; font-size: 13px; margin-top: 5px; }
   main { padding: 24px 32px; }
 
-  .cards { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
-  .card { background: #fff; border-radius: 8px; padding: 18px; flex: 1; min-width: 150px; box-shadow: 0 1px 3px rgba(0,0,0,.1); border-left: 4px solid #ddd; }
+  .cards { display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
+  .card { background: #fff; border-radius: 8px; padding: 16px; flex: 1; min-width: 140px; box-shadow: 0 1px 3px rgba(0,0,0,.1); border-left: 4px solid #ddd; }
   .card.critico { border-color: #d32f2f; }
   .card.alerta { border-color: #f57c00; }
+  .card.rampa { border-color: #1976d2; }
   .card.ok { border-color: #388e3c; }
-  .card-valor { font-size: 28px; font-weight: 800; }
-  .card-label { color: #5f6368; font-size: 13px; margin-top: 4px; font-weight: 600; text-transform: uppercase; }
+  .card-valor { font-size: 26px; font-weight: 800; }
+  .card-label { color: #5f6368; font-size: 12px; margin-top: 4px; font-weight: 600; text-transform: uppercase; }
 
-  .controles { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
-  .filtros { display: flex; gap: 8px; align-items: center; }
-  .btn { padding: 6px 14px; border-radius: 16px; border: 1px solid #dadce0; background: #fff; font-size: 13px; cursor: pointer; font-weight: 600; }
+  .seccion-filtros { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+  .fila-filtro { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .label-filtro { font-size: 13px; font-weight: 600; width: 60px; color: #444; }
+  
+  .controles-sup { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+  .btn { padding: 6px 14px; border-radius: 16px; border: 1px solid #dadce0; background: #fff; font-size: 13px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+  .btn:hover { border-color: #999; }
   .btn.activo { background: #1a1a1c; color: #FFB612; border-color: #1a1a1c; }
-  .btn-excel { background: #107c41; color: white; border: none; }
+  .btn-excel { background: #107c41; color: white; border: none; height: fit-content; padding: 8px 16px; border-radius: 8px; }
   .btn-excel:hover { background: #0c5e31; }
 
   table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.1); font-size: 13px; }
-  th { background: #1a1a1c; color: #FFB612; padding: 12px; text-transform: uppercase; font-size: 11px; text-align: center; }
+  th { background: #1a1a1c; color: #FFB612; padding: 12px; text-transform: uppercase; font-size: 11px; text-align: center; position: sticky; top: 0; }
   td { padding: 10px 12px; text-align: right; border-bottom: 1px solid #f1f3f4; }
   td.txt { text-align: left; }
   td.sede { font-weight: 600; }
@@ -39,11 +44,13 @@
   .critico { background: #ffebee; color: #c62828; }
   .alerta { background: #fff3e0; color: #ef6c00; }
   .tendencia { background: #fffde7; color: #f57f17; }
+  .rampa { background: #e3f2fd; color: #1565c0; }
   .ok { background: #e8f5e9; color: #2e7d32; }
   .neutral { background: #f5f5f5; color: #9e9e9e; }
   
   .pct-pos { color: #2e7d32; font-weight: 600; }
   .pct-neg { color: #c62828; font-weight: 600; }
+  .txt-vacio { color: #a1a1aa; font-style: italic; font-size: 11.5px; }
 </style>
 </head>
 <body>
@@ -54,18 +61,27 @@
 
   <main>
     <div class="cards">
-      <div class="card critico"><div class="card-valor" style="color:#d32f2f;">44</div><div class="card-label">Críticas (< 2100)</div></div>
-      <div class="card alerta"><div class="card-valor" style="color:#f57c00;">53</div><div class="card-label">En Alerta (< 2500)</div></div>
-      <div class="card"><div class="card-valor" style="color:#f57f17;">93</div><div class="card-label">Caída (2 meses)</div></div>
-      <div class="card ok"><div class="card-valor" style="color:#388e3c;">189</div><div class="card-label">Saludables</div></div>
+      <div class="card critico"><div class="card-valor" id="kpi-critico" style="color:#d32f2f;">41</div><div class="card-label">Críticas (< 2100)</div></div>
+      <div class="card alerta"><div class="card-valor" id="kpi-alerta" style="color:#f57c00;">53</div><div class="card-label">En Alerta (< 2500)</div></div>
+      <div class="card"><div class="card-valor" id="kpi-tendencia" style="color:#f57f17;">93</div><div class="card-label">Caída (2 meses)</div></div>
+      <div class="card rampa"><div class="card-valor" id="kpi-rampa" style="color:#1976d2;">3</div><div class="card-label">En Rampa / Nuevas</div></div>
+      <div class="card ok"><div class="card-valor" id="kpi-ok" style="color:#388e3c;">189</div><div class="card-label">Saludables</div></div>
     </div>
 
-    <div class="controles">
-      <div class="filtros">
-        <span style="font-size:13px; font-weight:600;">Estado:</span>
-        <button class="btn filtro-est activo" onclick="filtrar('estado', 'TODOS', this)">Todos</button>
-        <button class="btn filtro-est" onclick="filtrar('estado', 'PROBLEMAS', this)">⚠️ Solo Riesgos</button>
-        <button class="btn filtro-est" onclick="filtrar('estado', 'CRITICO', this)">🔴 Críticos</button>
+    <div class="controles-sup">
+      <div class="seccion-filtros">
+        <div class="fila-filtro">
+          <span class="label-filtro">País:</span>
+          <button class="btn filtro-pais activo" onclick="filtrar('pais', 'TODOS', this)">🌍 Todos</button>
+          <button class="btn filtro-pais" onclick="filtrar('pais', 'Colômbia', this)">🇨🇴 Colômbia</button><button class="btn filtro-pais" onclick="filtrar('pais', 'Costa Rica', this)">🇨🇷 Costa Rica</button><button class="btn filtro-pais" onclick="filtrar('pais', 'Panama', this)">🇵🇦 Panama</button><button class="btn filtro-pais" onclick="filtrar('pais', 'Peru', this)">🇵🇪 Peru</button>
+        </div>
+        <div class="fila-filtro">
+          <span class="label-filtro">Estado:</span>
+          <button class="btn filtro-est activo" onclick="filtrar('estado', 'TODOS', this)">Todos</button>
+          <button class="btn filtro-est" onclick="filtrar('estado', 'PROBLEMAS', this)">⚠️ Solo Riesgos</button>
+          <button class="btn filtro-est" onclick="filtrar('estado', 'CRITICO', this)">🔴 Críticos</button>
+          <button class="btn filtro-est" onclick="filtrar('estado', 'EN_RAMPA', this)">🔵 Nuevas / Rampa</button>
+        </div>
       </div>
       <button class="btn btn-excel" onclick="descargarCSV()">📥 Exportar CSV</button>
     </div>
@@ -80,16 +96,6 @@
       </thead>
       <tbody>
         
-        <tr data-pais="Colômbia" data-riesgo="CRITICO">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Los Patios</td>
-            <td><span class="badge critico">🔴 Crítico</span></td>
-            <td>s/d</td>
-            <td>s/d</td>
-            <td class="resaltado">1.133</td>
-            <td><span class="neutral">s/d</span></td>
-            <td><span class="neutral">s/d</span></td>
-        </tr>
         <tr data-pais="Costa Rica" data-riesgo="CRITICO">
             <td class='txt'>🇨🇷 Costa Rica</td>
             <td class='txt sede'>Estadio</td>
@@ -139,16 +145,6 @@
             <td class="resaltado">1.471</td>
             <td><span class="pct-pos">+0.7%</span></td>
             <td><span class="pct-pos">+4.2%</span></td>
-        </tr>
-        <tr data-pais="Peru" data-riesgo="CRITICO">
-            <td class='txt'>🇵🇪 Peru</td>
-            <td class='txt sede'>Las Lomas del Rímac</td>
-            <td><span class="badge critico">🔴 Crítico</span></td>
-            <td>s/d</td>
-            <td>949</td>
-            <td class="resaltado">1.478</td>
-            <td><span class="pct-pos">+55.7%</span></td>
-            <td><span class="neutral">s/d</span></td>
         </tr>
         <tr data-pais="Peru" data-riesgo="CRITICO">
             <td class='txt'>🇵🇪 Peru</td>
@@ -209,16 +205,6 @@
             <td class="resaltado">1.664</td>
             <td><span class="pct-pos">+3.3%</span></td>
             <td><span class="pct-pos">+3.5%</span></td>
-        </tr>
-        <tr data-pais="Colômbia" data-riesgo="CRITICO">
-            <td class='txt'>🇨🇴 Colômbia</td>
-            <td class='txt sede'>Bosa La Libertad</td>
-            <td><span class="badge critico">🔴 Crítico</span></td>
-            <td>s/d</td>
-            <td>s/d</td>
-            <td class="resaltado">1.747</td>
-            <td><span class="neutral">s/d</span></td>
-            <td><span class="neutral">s/d</span></td>
         </tr>
         <tr data-pais="Panama" data-riesgo="CRITICO">
             <td class='txt'>🇵🇦 Panama</td>
@@ -3870,25 +3856,85 @@
             <td><span class="pct-neg">-0.1%</span></td>
             <td><span class="pct-pos">+0.0%</span></td>
         </tr>
+        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Los Patios</td>
+            <td><span class="badge rampa">🔵 En Rampa</span></td>
+            <td><span class="txt-vacio">— (NUEVA)</span></td>
+            <td><span class="txt-vacio">— (NUEVA)</span></td>
+            <td class="resaltado">1.133</td>
+            <td><span class="neutral">N/A</span></td>
+            <td><span class="neutral">N/A</span></td>
+        </tr>
+        <tr data-pais="Peru" data-riesgo="EN_RAMPA">
+            <td class='txt'>🇵🇪 Peru</td>
+            <td class='txt sede'>Las Lomas del Rímac</td>
+            <td><span class="badge rampa">🔵 En Rampa</span></td>
+            <td><span class="txt-vacio">— (NUEVA)</span></td>
+            <td>949</td>
+            <td class="resaltado">1.478</td>
+            <td><span class="pct-pos">+55.7%</span></td>
+            <td><span class="neutral">N/A</span></td>
+        </tr>
+        <tr data-pais="Colômbia" data-riesgo="EN_RAMPA">
+            <td class='txt'>🇨🇴 Colômbia</td>
+            <td class='txt sede'>Bosa La Libertad</td>
+            <td><span class="badge rampa">🔵 En Rampa</span></td>
+            <td><span class="txt-vacio">— (NUEVA)</span></td>
+            <td><span class="txt-vacio">— (NUEVA)</span></td>
+            <td class="resaltado">1.747</td>
+            <td><span class="neutral">N/A</span></td>
+            <td><span class="neutral">N/A</span></td>
+        </tr>
       </tbody>
     </table>
   </main>
 
   <script>
+    let filtroActualPais = 'TODOS';
+    let filtroActualEstado = 'TODOS';
+
     function filtrar(tipo, valor, boton) {
-      document.querySelectorAll('.filtro-est').forEach(b => b.classList.remove('activo'));
+      if (tipo === 'pais') {
+        document.querySelectorAll('.filtro-pais').forEach(b => b.classList.remove('activo'));
+        filtroActualPais = valor;
+      } else {
+        document.querySelectorAll('.filtro-est').forEach(b => b.classList.remove('activo'));
+        filtroActualEstado = valor;
+      }
       boton.classList.add('activo');
       
+      let countCriticos = 0, countAlertas = 0, countTendencias = 0, countRampa = 0, countOks = 0;
+
       document.querySelectorAll('#tabla-activos tbody tr').forEach(fila => {
+        let pais = fila.getAttribute('data-pais');
         let riesgo = fila.getAttribute('data-riesgo');
-        let mostrar = false;
         
-        if (valor === 'TODOS') mostrar = true;
-        else if (valor === 'PROBLEMAS') mostrar = (riesgo !== 'OK' && riesgo !== 'SIN_DATO');
-        else if (valor === 'CRITICO') mostrar = (riesgo === 'CRITICO');
+        let matchPais = (filtroActualPais === 'TODOS' || pais === filtroActualPais);
+        let matchEstado = false;
         
+        if (filtroActualEstado === 'TODOS') matchEstado = true;
+        else if (filtroActualEstado === 'PROBLEMAS') matchEstado = (riesgo === 'CRITICO' || riesgo === 'ALERTA' || riesgo === 'TENDENCIA_NEGATIVA');
+        else if (filtroActualEstado === 'CRITICO') matchEstado = (riesgo === 'CRITICO');
+        else if (filtroActualEstado === 'EN_RAMPA') matchEstado = (riesgo === 'EN_RAMPA');
+        
+        let mostrar = matchPais && matchEstado;
         fila.style.display = mostrar ? '' : 'none';
+
+        if (mostrar) {
+          if (riesgo === 'CRITICO') countCriticos++;
+          else if (riesgo === 'ALERTA') countAlertas++;
+          else if (riesgo === 'TENDENCIA_NEGATIVA') countTendencias++;
+          else if (riesgo === 'EN_RAMPA') countRampa++;
+          else if (riesgo === 'OK') countOks++;
+        }
       });
+
+      document.getElementById('kpi-critico').innerText = countCriticos;
+      document.getElementById('kpi-alerta').innerText = countAlertas;
+      document.getElementById('kpi-tendencia').innerText = countTendencias;
+      document.getElementById('kpi-rampa').innerText = countRampa;
+      document.getElementById('kpi-ok').innerText = countOks;
     }
 
     function descargarCSV() {
