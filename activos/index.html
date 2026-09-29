@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="activos-build" content="20260929101856">
+<meta name="activos-build" content="20260929111114">
 <title>Dashboard Gerencial · Activos</title>
 <style>
   * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
@@ -13,9 +13,24 @@
   main { padding: 24px 32px; }
 
   .cards { display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
-  .card { background: #fff; border-radius: 8px; padding: 16px; flex: 1; min-width: 140px; box-shadow: 0 1px 3px rgba(0,0,0,.1); border-left: 4px solid #ddd; }
+  .card { 
+    background: #fff; 
+    border-radius: 8px; 
+    padding: 16px; 
+    flex: 1; 
+    min-width: 140px; 
+    box-shadow: 0 1px 3px rgba(0,0,0,.1); 
+    border-left: 4px solid #ddd; 
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,.12);
+  }
   .card.critico { border-color: #d32f2f; }
   .card.alerta { border-color: #f57c00; }
+  .card.tendencia { border-color: #f57f17; }
   .card.rampup { border-color: #1976d2; }
   .card.ok { border-color: #388e3c; }
   .card-valor { font-size: 26px; font-weight: 800; }
@@ -61,11 +76,11 @@
 
   <main>
     <div class="cards">
-      <div class="card critico"><div class="card-valor" id="kpi-critico" style="color:#d32f2f;">38</div><div class="card-label">Críticas (< 2100)</div></div>
-      <div class="card alerta"><div class="card-valor" id="kpi-alerta" style="color:#f57c00;">50</div><div class="card-label">En Alerta (< 2500)</div></div>
-      <div class="card"><div class="card-valor" id="kpi-tendencia" style="color:#f57f17;">93</div><div class="card-label">Caída (2 meses)</div></div>
-      <div class="card rampup"><div class="card-valor" id="kpi-rampup" style="color:#1976d2;">12</div><div class="card-label">Ramp-Up (< 6 Meses)</div></div>
-      <div class="card ok"><div class="card-valor" id="kpi-ok" style="color:#388e3c;">186</div><div class="card-label">Saludables</div></div>
+      <div class="card critico" id="card-critico" onclick="filtrarDesdeCard('CRITICO')"><div class="card-valor" id="kpi-critico" style="color:#d32f2f;">38</div><div class="card-label">Críticas (< 2100)</div></div>
+      <div class="card alerta" id="card-alerta" onclick="filtrarDesdeCard('ALERTA')"><div class="card-valor" id="kpi-alerta" style="color:#f57c00;">50</div><div class="card-label">En Alerta (< 2500)</div></div>
+      <div class="card tendencia" id="card-tendencia" onclick="filtrarDesdeCard('TENDENCIA_NEGATIVA')"><div class="card-valor" id="kpi-tendencia" style="color:#f57f17;">93</div><div class="card-label">Caída (2 meses)</div></div>
+      <div class="card rampup" id="card-rampup" onclick="filtrarDesdeCard('RAMP_UP')"><div class="card-valor" id="kpi-rampup" style="color:#1976d2;">12</div><div class="card-label">Ramp-Up (< 6 Meses)</div></div>
+      <div class="card ok" id="card-ok" onclick="filtrarDesdeCard('OK')"><div class="card-valor" id="kpi-ok" style="color:#388e3c;">186</div><div class="card-label">Saludables</div></div>
     </div>
 
     <div class="controles-sup">
@@ -80,6 +95,7 @@
           <button class="btn filtro-est activo" onclick="filtrar('estado', 'TODOS', this)">Todos</button>
           <button class="btn filtro-est" onclick="filtrar('estado', 'PROBLEMAS', this)">⚠️ Solo Riesgos</button>
           <button class="btn filtro-est" onclick="filtrar('estado', 'CRITICO', this)">🔴 Críticos</button>
+          <button class="btn filtro-est" onclick="filtrar('estado', 'ALERTA', this)">🟠 En Alerta</button>
           <button class="btn filtro-est" onclick="filtrar('estado', 'RAMP_UP', this)">🔵 Ramp-Up</button>
         </div>
       </div>
@@ -3902,8 +3918,17 @@
         document.querySelectorAll('.filtro-est').forEach(b => b.classList.remove('activo'));
         filtroActualEstado = valor;
       }
-      boton.classList.add('activo');
-      
+
+      if (boton) {
+        boton.classList.add('activo');
+      } else {
+        // Si el filtro proviene de hacer clic en una tarjeta, sincronizar el botón activo de abajo
+        document.querySelectorAll('.filtro-est').forEach(b => {
+          let attr = b.getAttribute('onclick') || '';
+          if (attr.includes("'" + valor + "'")) b.classList.add('activo');
+        });
+      }
+
       let countCriticos = 0, countAlertas = 0, countTendencias = 0, countRampup = 0, countOks = 0;
 
       document.querySelectorAll('#tabla-activos tbody tr').forEach(fila => {
@@ -3916,7 +3941,9 @@
         if (filtroActualEstado === 'TODOS') matchEstado = true;
         else if (filtroActualEstado === 'PROBLEMAS') matchEstado = (riesgo === 'CRITICO' || riesgo === 'ALERTA' || riesgo === 'TENDENCIA_NEGATIVA');
         else if (filtroActualEstado === 'CRITICO') matchEstado = (riesgo === 'CRITICO');
+        else if (filtroActualEstado === 'ALERTA') matchEstado = (riesgo === 'ALERTA');
         else if (filtroActualEstado === 'RAMP_UP') matchEstado = (riesgo === 'RAMP_UP');
+        else if (filtroActualEstado === 'OK') matchEstado = (riesgo === 'OK');
         
         let mostrar = matchPais && matchEstado;
         fila.style.display = mostrar ? '' : 'none';
@@ -3930,11 +3957,32 @@
         }
       });
 
+      // Actualizar valores de las tarjetas
       document.getElementById('kpi-critico').innerText = countCriticos;
       document.getElementById('kpi-alerta').innerText = countAlertas;
       document.getElementById('kpi-tendencia').innerText = countTendencias;
       document.getElementById('kpi-rampup').innerText = countRampup;
       document.getElementById('kpi-ok').innerText = countOks;
+
+      // Ocultar tarjetas cuyo valor sea 0 para limpiar la pantalla
+      actualizarVisibilidadCard('card-critico', countCriticos);
+      actualizarVisibilidadCard('card-alerta', countAlertas);
+      actualizarVisibilidadCard('card-tendencia', countTendencias);
+      actualizarVisibilidadCard('card-rampup', countRampup);
+      actualizarVisibilidadCard('card-ok', countOks);
+    }
+
+    function actualizarVisibilidadCard(idCard, cantidad) {
+      let card = document.getElementById(idCard);
+      if (card) {
+        card.style.display = (cantidad > 0) ? 'block' : 'none';
+      }
+    }
+
+    function filtrarDesdeCard(estado) {
+      // Si se vuelve a hacer clic en la tarjeta del estado que ya está activo, resetea a TODOS
+      let nuevoEstado = (filtroActualEstado === estado) ? 'TODOS' : estado;
+      filtrar('estado', nuevoEstado, null);
     }
 
     function descargarCSV() {
